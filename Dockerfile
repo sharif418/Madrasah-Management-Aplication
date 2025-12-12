@@ -30,5 +30,34 @@ RUN npm ci && npm run build && rm -rf node_modules
 RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
 RUN chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache
 
+# Create entrypoint script
+RUN echo '#!/bin/bash\n\
+set -e\n\
+\n\
+# Generate APP_KEY if not set\n\
+if [ -z "$APP_KEY" ]; then\n\
+    php artisan key:generate --force\n\
+fi\n\
+\n\
+# Run migrations\n\
+php artisan migrate --force\n\
+\n\
+# Run seeders\n\
+php artisan db:seed --force || true\n\
+\n\
+# Clear and cache config\n\
+php artisan config:cache\n\
+php artisan route:cache\n\
+php artisan view:cache\n\
+\n\
+# Create storage link\n\
+php artisan storage:link || true\n\
+\n\
+# Start the server\n\
+exec /init\n\
+' > /entrypoint.sh && chmod +x /entrypoint.sh
+
 # Expose port
 EXPOSE 80
+
+ENTRYPOINT ["/entrypoint.sh"]
