@@ -12,7 +12,9 @@ return [
         'show_model_path' => false,
         'is_scoped_to_tenant' => false,
         'cluster' => null,
+        'navigation_icon' => 'heroicon-o-shield-check',
     ],
+
 
     'tenant_model' => null,
 
