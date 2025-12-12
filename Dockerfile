@@ -3,8 +3,7 @@ FROM node:20-alpine AS assets
 WORKDIR /app
 COPY package*.json ./
 RUN npm install --legacy-peer-deps
-COPY resources ./resources
-COPY vite.config.js tailwind.config.js postcss.config.js ./
+COPY . .
 RUN npm run build
 
 # Stage 2: Composer dependencies (cached unless composer.* changes)
