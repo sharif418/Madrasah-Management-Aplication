@@ -1,51 +1,72 @@
-# Stage 1: Build assets
+# Stage 1: Build assets (cached unless package*.json changes)
 FROM node:20-alpine AS assets
 WORKDIR /app
 COPY package*.json ./
 RUN npm install --legacy-peer-deps
-COPY . .
+COPY resources ./resources
+COPY vite.config.js tailwind.config.js postcss.config.js ./
 RUN npm run build
 
-# Stage 2: PHP Application with Laravel Octane/Swoole
-FROM phpswoole/swoole:php8.3-alpine
+# Stage 2: Composer dependencies (cached unless composer.* changes)
+FROM composer:latest AS composer
+WORKDIR /app
+COPY composer.json composer.lock ./
+RUN composer install --no-dev --no-scripts --no-autoloader --prefer-dist --ignore-platform-reqs
 
-# Install system dependencies and PHP extensions
+# Stage 3: PHP Application
+FROM php:8.3-cli-alpine
+
+# Install only required system dependencies
 RUN apk add --no-cache \
-    git curl \
     libpng libjpeg-turbo freetype \
     libzip icu oniguruma libxml2 \
-    && docker-php-ext-enable swoole
+    mysql-client
 
-# Install additional PHP extensions
-RUN apk add --no-cache \
+# Install PHP extensions
+RUN apk add --no-cache --virtual .build-deps \
     libpng-dev libjpeg-turbo-dev freetype-dev \
     libzip-dev icu-dev oniguruma-dev libxml2-dev \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install pdo_mysql gd zip intl bcmath opcache exif pcntl \
-    && apk del libpng-dev libjpeg-turbo-dev freetype-dev libzip-dev icu-dev oniguruma-dev libxml2-dev
+    && apk del .build-deps
 
-# Install Composer
-COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+# Configure PHP for production
+RUN echo "opcache.enable=1" >> /usr/local/etc/php/conf.d/opcache.ini \
+    && echo "opcache.memory_consumption=128" >> /usr/local/etc/php/conf.d/opcache.ini \
+    && echo "opcache.interned_strings_buffer=8" >> /usr/local/etc/php/conf.d/opcache.ini \
+    && echo "opcache.max_accelerated_files=10000" >> /usr/local/etc/php/conf.d/opcache.ini \
+    && echo "opcache.validate_timestamps=0" >> /usr/local/etc/php/conf.d/opcache.ini
 
 WORKDIR /app
 
-# Copy composer files and install dependencies
-COPY composer.json composer.lock ./
-RUN composer install --no-dev --no-scripts --no-autoloader --prefer-dist
+# Copy composer dependencies
+COPY --from=composer /app/vendor ./vendor
 
 # Copy application files
 COPY . .
 
-# Copy built assets from node stage
+# Copy built assets
 COPY --from=assets /app/public/build ./public/build
 
-# Generate autoloader
-RUN composer dump-autoload --optimize
+# Generate optimized autoloader
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+RUN composer dump-autoload --optimize --no-dev --classmap-authoritative \
+    && rm /usr/bin/composer
 
 # Set permissions
 RUN chmod -R 777 storage bootstrap/cache
 
+# Create entrypoint script for production
+RUN echo '#!/bin/sh' > /entrypoint.sh \
+    && echo 'set -e' >> /entrypoint.sh \
+    && echo 'php artisan config:cache' >> /entrypoint.sh \
+    && echo 'php artisan route:cache' >> /entrypoint.sh \
+    && echo 'php artisan view:cache' >> /entrypoint.sh \
+    && echo 'php artisan migrate --force || true' >> /entrypoint.sh \
+    && echo 'php artisan storage:link || true' >> /entrypoint.sh \
+    && echo 'exec php artisan serve --host=0.0.0.0 --port=8000' >> /entrypoint.sh \
+    && chmod +x /entrypoint.sh
+
 EXPOSE 8000
 
-# Start Laravel with PHP built-in server
-CMD php artisan migrate --force; php artisan db:seed --force; php artisan serve --host=0.0.0.0 --port=8000
+CMD ["/entrypoint.sh"]
