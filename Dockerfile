@@ -7,45 +7,20 @@ COPY . .
 RUN npm run build
 
 # Stage 2: PHP Application
-FROM php:8.3-fpm-alpine
+FROM webdevops/php-nginx:8.3-alpine
 
-# Install system dependencies
-RUN apk add --no-cache \
-    nginx \
-    supervisor \
-    git \
-    curl \
-    libpng-dev \
-    libjpeg-turbo-dev \
-    freetype-dev \
-    libzip-dev \
-    icu-dev \
-    oniguruma-dev \
-    libxml2-dev \
-    mysql-client \
-    && docker-php-ext-configure gd --with-freetype --with-jpeg \
-    && docker-php-ext-install -j$(nproc) \
-        pdo_mysql \
-        mysqli \
-        gd \
-        zip \
-        intl \
-        bcmath \
-        opcache \
-        exif \
-        pcntl \
-    && rm -rf /var/cache/apk/*
+# Set environment variables
+ENV WEB_DOCUMENT_ROOT=/app/public
+ENV PHP_DISMOD=ioncube
+
+# Set working directory
+WORKDIR /app
 
 # Install Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-# Set working directory
-WORKDIR /var/www/html
-
-# Copy composer files
+# Copy composer files and install dependencies
 COPY composer.json composer.lock ./
-
-# Install PHP dependencies
 RUN composer install --no-dev --no-scripts --no-autoloader --optimize-autoloader
 
 # Copy application files
@@ -58,49 +33,12 @@ COPY --from=node-builder /app/public/build ./public/build
 RUN composer dump-autoload --optimize
 
 # Set permissions
-RUN chown -R www-data:www-data /var/www/html \
-    && chmod -R 755 /var/www/html/storage \
-    && chmod -R 755 /var/www/html/bootstrap/cache
+RUN chown -R application:application /app \
+    && chmod -R 755 /app/storage \
+    && chmod -R 755 /app/bootstrap/cache
 
-# Nginx configuration
-RUN echo 'server { \n\
-    listen 80; \n\
-    server_name _; \n\
-    root /var/www/html/public; \n\
-    index index.php; \n\
-    \n\
-    location / { \n\
-        try_files $uri $uri/ /index.php?$query_string; \n\
-    } \n\
-    \n\
-    location ~ \.php$ { \n\
-        fastcgi_pass 127.0.0.1:9000; \n\
-        fastcgi_index index.php; \n\
-        fastcgi_param SCRIPT_FILENAME $realpath_root$fastcgi_script_name; \n\
-        include fastcgi_params; \n\
-    } \n\
-    \n\
-    location ~ /\.(?!well-known).* { \n\
-        deny all; \n\
-    } \n\
-}' > /etc/nginx/http.d/default.conf
-
-# Supervisor configuration
-RUN echo '[supervisord] \n\
-nodaemon=true \n\
-\n\
-[program:nginx] \n\
-command=nginx -g "daemon off;" \n\
-autostart=true \n\
-autorestart=true \n\
-\n\
-[program:php-fpm] \n\
-command=php-fpm \n\
-autostart=true \n\
-autorestart=true' > /etc/supervisord.conf
-
-# Entrypoint script
-RUN echo '#!/bin/sh \n\
+# Create startup script
+RUN echo '#!/bin/bash \n\
 set -e \n\
 \n\
 # Generate APP_KEY if not set \n\
@@ -122,10 +60,8 @@ php artisan view:cache || true \n\
 # Create storage link \n\
 php artisan storage:link || true \n\
 \n\
-# Start supervisor \n\
-exec /usr/bin/supervisord -c /etc/supervisord.conf' > /entrypoint.sh \
-    && chmod +x /entrypoint.sh
+# Continue with default entrypoint \n\
+exec /entrypoint supervisord' > /opt/docker/provision/entrypoint.d/20-laravel.sh \
+    && chmod +x /opt/docker/provision/entrypoint.d/20-laravel.sh
 
 EXPOSE 80
-
-CMD ["/entrypoint.sh"]
