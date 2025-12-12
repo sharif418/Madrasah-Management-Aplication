@@ -1,24 +1,35 @@
 FROM serversideup/php:8.3-fpm-nginx
 
-# Install additional extensions
-RUN install-php-extensions \
+# Switch to root for installing extensions
+USER root
+
+# Install additional PHP extensions
+RUN apt-get update && apt-get install -y \
+    libicu-dev \
+    libfreetype6-dev \
+    libjpeg62-turbo-dev \
+    libpng-dev \
+    libexif-dev \
+    && docker-php-ext-configure gd --with-freetype --with-jpeg \
+    && docker-php-ext-install -j$(nproc) \
     intl \
     bcmath \
     gd \
     exif \
-    pcntl
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
 
 # Set working directory
 WORKDIR /var/www/html
 
 # Copy composer files first (for caching)
-COPY composer.json composer.lock ./
+COPY --chown=www-data:www-data composer.json composer.lock ./
 
 # Install composer dependencies
 RUN composer install --no-dev --no-scripts --no-autoloader --prefer-dist
 
 # Copy application files
-COPY . .
+COPY --chown=www-data:www-data . .
 
 # Generate autoloader
 RUN composer dump-autoload --optimize
@@ -27,8 +38,8 @@ RUN composer dump-autoload --optimize
 RUN npm ci && npm run build && rm -rf node_modules
 
 # Set permissions
-RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
-RUN chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache
+RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache \
+    && chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache
 
 # Create entrypoint script
 RUN echo '#!/bin/bash\n\
@@ -40,15 +51,15 @@ if [ -z "$APP_KEY" ]; then\n\
 fi\n\
 \n\
 # Run migrations\n\
-php artisan migrate --force\n\
+php artisan migrate --force || true\n\
 \n\
 # Run seeders\n\
 php artisan db:seed --force || true\n\
 \n\
-# Clear and cache config\n\
-php artisan config:cache\n\
-php artisan route:cache\n\
-php artisan view:cache\n\
+# Cache config\n\
+php artisan config:cache || true\n\
+php artisan route:cache || true\n\
+php artisan view:cache || true\n\
 \n\
 # Create storage link\n\
 php artisan storage:link || true\n\
@@ -56,6 +67,9 @@ php artisan storage:link || true\n\
 # Start the server\n\
 exec /init\n\
 ' > /entrypoint.sh && chmod +x /entrypoint.sh
+
+# Switch back to www-data user
+USER www-data
 
 # Expose port
 EXPOSE 80
