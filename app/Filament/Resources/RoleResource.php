@@ -4,8 +4,6 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\RoleResource\Pages;
 use BezhanSalleh\FilamentShield\Contracts\HasShieldPermissions;
-use BezhanSalleh\FilamentShield\Facades\FilamentShield;
-use BezhanSalleh\FilamentShield\Support\Utils;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -57,8 +55,11 @@ class RoleResource extends Resource implements HasShieldPermissions
                                     ->maxLength(255),
                                 Forms\Components\Select::make('guard_name')
                                     ->label('গার্ড')
-                                    ->options(Utils::getGuardOptions())
-                                    ->default(Utils::getFilamentAuthGuard())
+                                    ->options([
+                                        'web' => 'Web',
+                                        'api' => 'API',
+                                    ])
+                                    ->default('web')
                                     ->required(),
                                 Forms\Components\Toggle::make('select_all')
                                     ->label('সব সিলেক্ট করুন')
