@@ -39,7 +39,7 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->font('Hind Siliguri') // Bengali font
             ->brandName('মাদরাসা ম্যানেজমেন্ট')
-            ->favicon(asset('favicon.ico'))
+            ->favicon('/favicon.ico')
             ->sidebarCollapsibleOnDesktop()
             ->sidebarFullyCollapsibleOnDesktop()
             ->databaseNotifications()
