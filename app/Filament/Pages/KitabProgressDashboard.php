@@ -73,7 +73,7 @@ class KitabProgressDashboard extends Page implements HasForms
 
                 Forms\Components\Select::make('academic_year_id')
                     ->label('শিক্ষাবর্ষ')
-                    ->options(AcademicYear::orderBy('id', 'desc')->pluck('year', 'id'))
+                    ->options(AcademicYear::orderBy('id', 'desc')->pluck('name', 'id'))
                     ->native(false),
             ])
             ->columns(3)
