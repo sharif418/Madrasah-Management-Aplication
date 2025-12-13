@@ -334,4 +334,9 @@ class WebsiteController extends Controller
     {
         return view('website.admission.fees');
     }
+
+    public function userGuide()
+    {
+        return view('website.pages.user-guide');
+    }
 }

@@ -71,6 +71,9 @@ Route::get('/donate', [WebsiteController::class, 'donate'])->name('donate');
 // Portal Links
 Route::get('/portal', [WebsiteController::class, 'portal'])->name('portal');
 
+// User Guide
+Route::get('/user-guide', [WebsiteController::class, 'userGuide'])->name('user-guide');
+
 
 // Student Routes
 Route::prefix('student')->name('student.')->group(function () {

@@ -122,8 +122,8 @@
                     &copy; {{ date('Y') }} {{ institution_name() ?? 'মাদরাসা নাম' }}। সর্বস্বত্ব সংরক্ষিত।
                 </p>
                 <p class="text-gray-600 text-sm">
-                    ডেভেলপড বাই <a href="#" class="text-primary-400 hover:text-primary-300">মাদরাসা ম্যানেজমেন্ট
-                        সিস্টেম</a>
+                    ডেভেলপড বাই <a href="{{ route('user-guide') }}"
+                        class="text-primary-400 hover:text-primary-300 font-semibold">Sharif Mohammad Nasrullah</a>
                 </p>
             </div>
         </div>
