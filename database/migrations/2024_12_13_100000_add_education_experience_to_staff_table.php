@@ -12,8 +12,12 @@ return new class extends Migration {
     {
         Schema::table('staff', function (Blueprint $table) {
             // New personal fields
-            $table->string('mother_name')->nullable()->after('father_name');
-            $table->string('emergency_phone')->nullable()->after('phone');
+            if (!Schema::hasColumn('staff', 'mother_name')) {
+                $table->string('mother_name')->nullable()->after('father_name');
+            }
+            if (!Schema::hasColumn('staff', 'emergency_phone')) {
+                $table->string('emergency_phone')->nullable()->after('phone');
+            }
 
             // Replace single address with present/permanent
             if (!Schema::hasColumn('staff', 'present_address')) {
@@ -55,19 +59,27 @@ return new class extends Migration {
     public function down(): void
     {
         Schema::table('staff', function (Blueprint $table) {
-            $table->dropColumn([
-                'mother_name',
-                'emergency_phone',
-                'present_address',
-                'permanent_address',
-                'education',
-                'experience',
-                'photo',
-                'documents',
-            ]);
+            if (Schema::hasColumn('staff', 'mother_name'))
+                $table->dropColumn('mother_name');
+            if (Schema::hasColumn('staff', 'emergency_phone'))
+                $table->dropColumn('emergency_phone');
+            if (Schema::hasColumn('staff', 'present_address'))
+                $table->dropColumn('present_address');
+            if (Schema::hasColumn('staff', 'permanent_address'))
+                $table->dropColumn('permanent_address');
+            if (Schema::hasColumn('staff', 'education'))
+                $table->dropColumn('education');
+            if (Schema::hasColumn('staff', 'experience'))
+                $table->dropColumn('experience');
+            if (Schema::hasColumn('staff', 'photo'))
+                $table->dropColumn('photo');
+            if (Schema::hasColumn('staff', 'documents'))
+                $table->dropColumn('documents');
 
-            $table->dropForeign(['department_id']);
-            $table->dropColumn('department_id');
+            if (Schema::hasColumn('staff', 'department_id')) {
+                $table->dropForeign(['department_id']);
+                $table->dropColumn('department_id');
+            }
         });
     }
 };
