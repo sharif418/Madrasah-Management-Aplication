@@ -110,3 +110,23 @@ if (!function_exists('bkash_enabled')) {
         return (bool) setting('bkash_enabled', false);
     }
 }
+
+if (!function_exists('institution_start_time')) {
+    /**
+     * Get institution start time
+     */
+    function institution_start_time(): string
+    {
+        return setting('institution_start_time', '08:00');
+    }
+}
+
+if (!function_exists('institution_end_time')) {
+    /**
+     * Get institution end time
+     */
+    function institution_end_time(): string
+    {
+        return setting('institution_end_time', '16:00');
+    }
+}
