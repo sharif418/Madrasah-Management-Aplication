@@ -11,44 +11,68 @@ return new class extends Migration {
     public function up(): void
     {
         Schema::table('staff', function (Blueprint $table) {
+            // Check if reference columns exist before using 'after', otherwise just add at end
+
             // New personal fields
             if (!Schema::hasColumn('staff', 'mother_name')) {
-                $table->string('mother_name')->nullable()->after('father_name');
+                if (Schema::hasColumn('staff', 'father_name')) {
+                    $table->string('mother_name')->nullable()->after('father_name');
+                } else {
+                    $table->string('mother_name')->nullable();
+                }
             }
+
             if (!Schema::hasColumn('staff', 'emergency_phone')) {
-                $table->string('emergency_phone')->nullable()->after('phone');
+                if (Schema::hasColumn('staff', 'phone')) {
+                    $table->string('emergency_phone')->nullable()->after('phone');
+                } else {
+                    $table->string('emergency_phone')->nullable();
+                }
             }
 
             // Replace single address with present/permanent
             if (!Schema::hasColumn('staff', 'present_address')) {
-                $table->text('present_address')->nullable()->after('email');
+                if (Schema::hasColumn('staff', 'email')) {
+                    $table->text('present_address')->nullable()->after('email');
+                } else {
+                    $table->text('present_address')->nullable();
+                }
             }
             if (!Schema::hasColumn('staff', 'permanent_address')) {
-                $table->text('permanent_address')->nullable()->after('present_address');
+                $table->text('permanent_address')->nullable(); // Just add, order doesn't matter much if prev col unstable
             }
 
             // Education and Experience as JSON
             if (!Schema::hasColumn('staff', 'education')) {
-                $table->json('education')->nullable()->after('permanent_address');
+                $table->json('education')->nullable();
             }
             if (!Schema::hasColumn('staff', 'experience')) {
-                $table->json('experience')->nullable()->after('education');
+                $table->json('experience')->nullable();
             }
 
             // Department relationship
             if (!Schema::hasColumn('staff', 'department_id')) {
-                $table->foreignId('department_id')->nullable()->after('designation_id')
-                    ->constrained('departments')->nullOnDelete();
+                if (Schema::hasColumn('staff', 'designation_id')) {
+                    $table->foreignId('department_id')->nullable()->after('designation_id')
+                        ->constrained('departments')->nullOnDelete();
+                } else {
+                    $table->foreignId('department_id')->nullable()
+                        ->constrained('departments')->nullOnDelete();
+                }
             }
 
-            // Photo field for FileUpload (direct file, not media library)
+            // Photo field 
             if (!Schema::hasColumn('staff', 'photo')) {
-                $table->string('photo')->nullable()->after('notes');
+                if (Schema::hasColumn('staff', 'notes')) {
+                    $table->string('photo')->nullable()->after('notes');
+                } else {
+                    $table->string('photo')->nullable();
+                }
             }
 
-            // Documents field for multiple files
+            // Documents field
             if (!Schema::hasColumn('staff', 'documents')) {
-                $table->json('documents')->nullable()->after('photo');
+                $table->json('documents')->nullable();
             }
         });
     }
