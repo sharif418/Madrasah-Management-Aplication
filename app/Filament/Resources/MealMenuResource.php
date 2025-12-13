@@ -17,7 +17,7 @@ class MealMenuResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-cake';
 
-    protected static ?string $navigationGroup = 'হোস্টেল ব্যবস্থাপনা';
+    protected static ?string $navigationGroup = 'হোস্টেল ও পরিবহন';
 
     protected static ?string $navigationLabel = 'খাবার মেনু';
 

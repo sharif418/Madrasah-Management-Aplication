@@ -17,7 +17,7 @@ class VehicleMaintenanceResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-wrench-screwdriver';
 
-    protected static ?string $navigationGroup = 'পরিবহন ব্যবস্থাপনা';
+    protected static ?string $navigationGroup = 'হোস্টেল ও পরিবহন';
 
     protected static ?string $navigationLabel = 'মেইনটেন্যান্স';
 

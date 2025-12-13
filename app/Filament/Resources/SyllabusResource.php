@@ -20,7 +20,7 @@ class SyllabusResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-document-text';
 
-    protected static ?string $navigationGroup = 'একাডেমিক';
+    protected static ?string $navigationGroup = 'একাডেমিক সেটআপ';
 
     protected static ?string $navigationLabel = 'সিলেবাস';
 

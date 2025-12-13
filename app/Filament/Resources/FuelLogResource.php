@@ -18,7 +18,7 @@ class FuelLogResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-fire';
 
-    protected static ?string $navigationGroup = 'পরিবহন ব্যবস্থাপনা';
+    protected static ?string $navigationGroup = 'হোস্টেল ও পরিবহন';
 
     protected static ?string $navigationLabel = 'জ্বালানি লগ';
 

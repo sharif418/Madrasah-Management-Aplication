@@ -19,7 +19,7 @@ class HostelVisitorResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-user-plus';
 
-    protected static ?string $navigationGroup = 'হোস্টেল ব্যবস্থাপনা';
+    protected static ?string $navigationGroup = 'হোস্টেল ও পরিবহন';
 
     protected static ?string $navigationLabel = 'ভিজিটর লগ';
 
