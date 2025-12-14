@@ -332,7 +332,15 @@ class WebsiteController extends Controller
 
     public function fees()
     {
-        return view('website.admission.fees');
+        $classes = \App\Models\ClassName::where('is_active', true)
+            ->with(['feeStructures' => function($q) {
+                $q->where('is_active', true)
+                  ->with('feeType');
+            }])
+            ->orderBy('order')
+            ->get();
+        
+        return view('website.admission.fees', compact('classes'));
     }
 
     public function userGuide()

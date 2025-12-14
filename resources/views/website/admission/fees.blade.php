@@ -25,71 +25,33 @@
         <div class="container mx-auto px-4">
             <div class="max-w-6xl mx-auto">
 
+                @if($classes->count() > 0)
                 <!-- Pricing Cards -->
                 <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
-                    @php
-                        $feeStructures = [
-                            [
-                                'name' => 'নাজেরা বিভাগ',
-                                'icon' => '📖',
-                                'popular' => false,
-                                'admission' => '১,০০০',
-                                'monthly' => '৫০০',
-                                'annual' => '৫,০০০',
-                                'includes' => ['বই ও খাতা', 'পরীক্ষা ফি', 'আইডি কার্ড'],
-                            ],
-                            [
-                                'name' => 'হিফজ বিভাগ',
-                                'icon' => '🕌',
-                                'popular' => true,
-                                'admission' => '২,০০০',
-                                'monthly' => '১,০০০',
-                                'annual' => '১০,০০০',
-                                'includes' => ['বই ও খাতা', 'পরীক্ষা ফি', 'আইডি কার্ড', 'বিশেষ তদারকি'],
-                            ],
-                            [
-                                'name' => 'কিতাব বিভাগ',
-                                'icon' => '📚',
-                                'popular' => false,
-                                'admission' => '১,৫০০',
-                                'monthly' => '৮০০',
-                                'annual' => '৮,০০০',
-                                'includes' => ['বই ও খাতা', 'পরীক্ষা ফি', 'আইডি কার্ড'],
-                            ],
-                            [
-                                'name' => 'আলিম (১১-১২)',
-                                'icon' => '🎓',
-                                'popular' => false,
-                                'admission' => '৩,০০০',
-                                'monthly' => '১,২০০',
-                                'annual' => '১২,০০০',
-                                'includes' => ['বোর্ড রেজিস্ট্রেশন', 'পরীক্ষা ফি', 'আইডি কার্ড', 'লাইব্রেরি'],
-                            ],
-                            [
-                                'name' => 'ফাযিল (ডিগ্রী)',
-                                'icon' => '🏛️',
-                                'popular' => false,
-                                'admission' => '৫,০০০',
-                                'monthly' => '১,৫০০',
-                                'annual' => '১৫,০০০',
-                                'includes' => ['বিশ্ববিদ্যালয় রেজিস্ট্রেশন', 'পরীক্ষা ফি', 'আইডি কার্ড', 'লাইব্রেরি', 'কম্পিউটার ল্যাব'],
-                            ],
-                            [
-                                'name' => 'আবাসিক (হোস্টেল)',
-                                'icon' => '🏠',
-                                'popular' => false,
-                                'admission' => '৫,০০০',
-                                'monthly' => '৩,০০০',
-                                'annual' => '৩০,০০০',
-                                'includes' => ['থাকা', 'খাওয়া (৩ বেলা)', 'বিদ্যুৎ', 'পানি', 'নিরাপত্তা'],
-                            ],
-                        ];
-                    @endphp
-
-                    @foreach($feeStructures as $fee)
+                    @foreach($classes as $class)
+                        @php
+                            // Calculate totals from fee structures
+                            $monthlyFee = $class->feeStructures->first(fn($f) => str_contains(strtolower($f->feeType->name ?? ''), 'মাসিক'));
+                            $admissionFee = $class->feeStructures->first(fn($f) => str_contains(strtolower($f->feeType->name ?? ''), 'ভর্তি'));
+                            $annualFee = $class->feeStructures->first(fn($f) => str_contains(strtolower($f->feeType->name ?? ''), 'বার্ষিক'));
+                            
+                            $monthlyAmount = $monthlyFee->amount ?? 0;
+                            $admissionAmount = $admissionFee->amount ?? 0;
+                            $annualAmount = $annualFee->amount ?? 0;
+                            
+                            // Icons based on class name
+                            $icon = '📖';
+                            if(str_contains($class->name, 'হিফজ') || str_contains($class->name, 'হেফজ')) $icon = '🕌';
+                            elseif(str_contains($class->name, 'কিতাব')) $icon = '📚';
+                            elseif(str_contains($class->name, 'আলিম')) $icon = '🎓';
+                            elseif(str_contains($class->name, 'ফাযিল') || str_contains($class->name, 'ফাজিল')) $icon = '🏛️';
+                            elseif(str_contains($class->name, 'আবাসিক') || str_contains($class->name, 'হোস্টেল')) $icon = '🏠';
+                        @endphp
+                        
                         <div class="relative bg-white rounded-3xl shadow-xl overflow-hidden hover:-translate-y-2 transition-transform"
                             data-aos="fade-up" data-aos-delay="{{ $loop->index * 100 }}">
-                            @if($fee['popular'])
+                            
+                            @if($loop->index === 1)
                                 <div class="absolute top-4 right-4 px-4 py-1 bg-gold-500 text-white text-sm font-bold rounded-full">
                                     জনপ্রিয়
                                 </div>
@@ -97,14 +59,14 @@
 
                             <div class="p-8">
                                 <div class="text-center mb-6">
-                                    <span class="text-5xl">{{ $fee['icon'] }}</span>
-                                    <h3 class="text-xl font-bold text-gray-900 mt-4">{{ $fee['name'] }}</h3>
+                                    <span class="text-5xl">{{ $icon }}</span>
+                                    <h3 class="text-xl font-bold text-gray-900 mt-4">{{ $class->name }}</h3>
                                 </div>
 
                                 <div class="text-center mb-6 pb-6 border-b border-gray-100">
                                     <p class="text-gray-500 text-sm">মাসিক ফি</p>
                                     <p class="text-4xl font-bold text-primary-600">
-                                        ৳{{ $fee['monthly'] }}
+                                        ৳{{ number_format($monthlyAmount) }}
                                         <span class="text-base font-normal text-gray-500">/মাস</span>
                                     </p>
                                 </div>
@@ -112,35 +74,43 @@
                                 <div class="grid grid-cols-2 gap-4 mb-6">
                                     <div class="bg-gray-50 rounded-xl p-4 text-center">
                                         <p class="text-xs text-gray-500">ভর্তি ফি</p>
-                                        <p class="font-bold text-gray-900">৳{{ $fee['admission'] }}</p>
+                                        <p class="font-bold text-gray-900">৳{{ number_format($admissionAmount) }}</p>
                                     </div>
                                     <div class="bg-gray-50 rounded-xl p-4 text-center">
                                         <p class="text-xs text-gray-500">বার্ষিক</p>
-                                        <p class="font-bold text-gray-900">৳{{ $fee['annual'] }}</p>
+                                        <p class="font-bold text-gray-900">৳{{ number_format($annualAmount) }}</p>
                                     </div>
                                 </div>
 
                                 <div class="space-y-3 mb-8">
-                                    @foreach($fee['includes'] as $item)
+                                    @foreach($class->feeStructures->take(4) as $fee)
                                         <div class="flex items-center gap-3 text-gray-600">
                                             <svg class="w-5 h-5 text-green-500" fill="none" stroke="currentColor"
                                                 viewBox="0 0 24 24">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                                     d="M5 13l4 4L19 7" />
                                             </svg>
-                                            <span>{{ $item }}</span>
+                                            <span>{{ $fee->feeType->name ?? 'ফি' }}</span>
                                         </div>
                                     @endforeach
                                 </div>
 
                                 <a href="{{ route('admission.apply') }}"
-                                    class="block w-full py-3 {{ $fee['popular'] ? 'bg-primary-600 text-white' : 'bg-gray-100 text-gray-700' }} rounded-xl font-semibold text-center hover:opacity-90 transition-opacity">
+                                    class="block w-full py-3 {{ $loop->index === 1 ? 'bg-primary-600 text-white' : 'bg-gray-100 text-gray-700' }} rounded-xl font-semibold text-center hover:opacity-90 transition-opacity">
                                     আবেদন করুন
                                 </a>
                             </div>
                         </div>
                     @endforeach
                 </div>
+                @else
+                <!-- No Fee Structures Message -->
+                <div class="text-center py-16 bg-white rounded-3xl shadow-lg mb-16">
+                    <div class="text-6xl mb-4">📋</div>
+                    <h3 class="text-2xl font-bold text-gray-700 mb-2">ফি কাঠামো শীঘ্রই আসছে</h3>
+                    <p class="text-gray-500">বিস্তারিত জানতে অফিসে যোগাযোগ করুন</p>
+                </div>
+                @endif
 
                 <!-- Additional Fees Note -->
                 <div class="bg-gold-50 border border-gold-200 rounded-3xl p-8 mb-12" data-aos="fade-up">
@@ -162,7 +132,7 @@
                         </li>
                         <li class="flex items-start gap-2">
                             <span>•</span>
-                            <span>বিলম্বে পরিশোধে ৫০ টাকা জরিমানা প্রযোজ্য</span>
+                            <span>বিলম্বে পরিশোধে জরিমানা প্রযোজ্য</span>
                         </li>
                         <li class="flex items-start gap-2">
                             <span>•</span>
@@ -181,11 +151,10 @@
                     <div class="grid md:grid-cols-3 gap-8">
                         <div class="text-center">
                             <div class="w-20 h-20 bg-pink-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
-                                <img src="https://www.bkash.com/sites/all/themes/flavor/images/bkash-logo.png" alt="bKash"
-                                    class="h-12" onerror="this.innerHTML='<span class=\'text-3xl\'>📱</span>'">
+                                <span class="text-3xl">📱</span>
                             </div>
                             <h4 class="font-bold text-gray-900 mb-2">bKash</h4>
-                            <p class="text-gray-600">০১XXXXXXXXX</p>
+                            <p class="text-gray-600">{{ \App\Models\Setting::getValue('bkash_number', '০১XXXXXXXXX') }}</p>
                             <p class="text-sm text-gray-500">মার্চেন্ট / পার্সোনাল</p>
                         </div>
                         <div class="text-center">
@@ -193,7 +162,7 @@
                                 <span class="text-3xl">📲</span>
                             </div>
                             <h4 class="font-bold text-gray-900 mb-2">Nagad</h4>
-                            <p class="text-gray-600">০১XXXXXXXXX</p>
+                            <p class="text-gray-600">{{ \App\Models\Setting::getValue('nagad_number', '০১XXXXXXXXX') }}</p>
                             <p class="text-sm text-gray-500">পার্সোনাল</p>
                         </div>
                         <div class="text-center">

@@ -18,7 +18,7 @@ return new class extends Migration {
         // Teachers (শিক্ষক/উস্তাদ)
         Schema::create('teachers', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('user_id')->nullable()->constrained()->nullOnDelete();
             $table->string('employee_id')->unique(); // কর্মচারী আইডি
             $table->string('name');
             $table->string('name_en')->nullable();
