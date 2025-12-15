@@ -64,6 +64,7 @@ RUN echo '#!/bin/sh' > /entrypoint.sh \
     && echo 'php artisan icons:cache || true' >> /entrypoint.sh \
     && echo 'php artisan filament:cache-components || true' >> /entrypoint.sh \
     && echo 'php artisan migrate --force || true' >> /entrypoint.sh \
+    && echo 'php artisan db:seed --force || true' >> /entrypoint.sh \
     && echo 'php artisan storage:link || true' >> /entrypoint.sh \
     && echo 'exec php artisan serve --host=0.0.0.0 --port=8000' >> /entrypoint.sh \
     && chmod +x /entrypoint.sh
