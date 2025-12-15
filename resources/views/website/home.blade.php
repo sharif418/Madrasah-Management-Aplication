@@ -37,7 +37,7 @@
                     {{ institution_name() ?? 'মাদরাসা নাম' }}
                 </h1>
                 <p class="text-xl md:text-2xl text-primary-100 mb-8" data-aos="fade-up" data-aos-delay="200">
-                    কুরআন ও সুন্নাহর আলোকে দ্বীনি ও আধুনিক শিক্ষার সমন্বয়
+                    {{ institution_slogan() }}
                 </p>
                 <div class="flex flex-wrap gap-4" data-aos="fade-up" data-aos-delay="300">
                     <a href="{{ route('admission') }}" class="px-8 py-4 bg-gradient-to-r from-gold-400 to-gold-600 text-gray-900 rounded-full font-bold text-lg shadow-xl hover:shadow-2xl hover:-translate-y-1 transition-all duration-300">

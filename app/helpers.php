@@ -30,6 +30,16 @@ if (!function_exists('institution_name')) {
     }
 }
 
+if (!function_exists('institution_slogan')) {
+    /**
+     * Get institution slogan
+     */
+    function institution_slogan(): string
+    {
+        return setting('institution_slogan', 'কুরআন ও সুন্নাহর আলোকে দ্বীনি ও আধুনিক শিক্ষার সমন্বয়');
+    }
+}
+
 if (!function_exists('institution_logo')) {
     /**
      * Get institution logo URL
