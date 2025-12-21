@@ -14,49 +14,84 @@
         <div class="container mx-auto px-4">
             <div class="max-w-4xl mx-auto">
                 <div class="grid md:grid-cols-2 gap-8">
+                    <!-- Mission -->
                     <div class="bg-primary-50 rounded-2xl p-8" data-aos="fade-right">
-                        <h2 class="text-2xl font-bold text-primary-800 mb-4">🎯 আমাদের লক্ষ্য</h2>
-                        <ul class="space-y-3 text-gray-700">
-                            <li class="flex items-start gap-2">
-                                <span class="text-primary-600">✓</span>
-                                কুরআন ও সুন্নাহর আলোকে আদর্শ মুসলিম গড়ে তোলা
-                            </li>
-                            <li class="flex items-start gap-2">
-                                <span class="text-primary-600">✓</span>
-                                দ্বীনি ও আধুনিক শিক্ষার সমন্বয় সাধন
-                            </li>
-                            <li class="flex items-start gap-2">
-                                <span class="text-primary-600">✓</span>
-                                চরিত্রবান ও দেশপ্রেমিক নাগরিক তৈরি
-                            </li>
-                            <li class="flex items-start gap-2">
-                                <span class="text-primary-600">✓</span>
-                                হাফেজে কুরআন ও আলেমে দ্বীন তৈরি
-                            </li>
-                        </ul>
+                        <h2 class="text-2xl font-bold text-primary-800 mb-4">
+                            🎯 {{ setting('mission_title', 'আমাদের লক্ষ্য') }}
+                        </h2>
+                        @if(setting('mission_content'))
+                            <div class="prose prose-sm text-gray-700">
+                                {!! setting('mission_content') !!}
+                            </div>
+                        @else
+                            <ul class="space-y-3 text-gray-700">
+                                <li class="flex items-start gap-2">
+                                    <span class="text-primary-600">✓</span>
+                                    কুরআন ও সুন্নাহর আলোকে আদর্শ মুসলিম গড়ে তোলা
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <span class="text-primary-600">✓</span>
+                                    দ্বীনি ও আধুনিক শিক্ষার সমন্বয় সাধন
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <span class="text-primary-600">✓</span>
+                                    চরিত্রবান ও দেশপ্রেমিক নাগরিক তৈরি
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <span class="text-primary-600">✓</span>
+                                    হাফেজে কুরআন ও আলেমে দ্বীন তৈরি
+                                </li>
+                            </ul>
+                        @endif
                     </div>
+
+                    <!-- Vision -->
                     <div class="bg-gold-50 rounded-2xl p-8" data-aos="fade-left">
-                        <h2 class="text-2xl font-bold text-gold-800 mb-4">🌟 আমাদের ভিশন</h2>
-                        <ul class="space-y-3 text-gray-700">
-                            <li class="flex items-start gap-2">
-                                <span class="text-gold-600">✓</span>
-                                বাংলাদেশের সেরা দ্বীনি শিক্ষা প্রতিষ্ঠান হওয়া
-                            </li>
-                            <li class="flex items-start gap-2">
-                                <span class="text-gold-600">✓</span>
-                                আন্তর্জাতিক মানের শিক্ষা প্রদান
-                            </li>
-                            <li class="flex items-start gap-2">
-                                <span class="text-gold-600">✓</span>
-                                সমাজ ও দেশের উন্নয়নে অবদান রাখা
-                            </li>
-                            <li class="flex items-start gap-2">
-                                <span class="text-gold-600">✓</span>
-                                দ্বীন ও দুনিয়ায় সফল মানুষ তৈরি
-                            </li>
-                        </ul>
+                        <h2 class="text-2xl font-bold text-gold-800 mb-4">
+                            🌟 {{ setting('vision_title', 'আমাদের ভিশন') }}
+                        </h2>
+                        @if(setting('vision_content'))
+                            <div class="prose prose-sm text-gray-700">
+                                {!! setting('vision_content') !!}
+                            </div>
+                        @else
+                            <ul class="space-y-3 text-gray-700">
+                                <li class="flex items-start gap-2">
+                                    <span class="text-gold-600">✓</span>
+                                    বাংলাদেশের সেরা দ্বীনি শিক্ষা প্রতিষ্ঠান হওয়া
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <span class="text-gold-600">✓</span>
+                                    আন্তর্জাতিক মানের শিক্ষা প্রদান
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <span class="text-gold-600">✓</span>
+                                    সমাজ ও দেশের উন্নয়নে অবদান রাখা
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <span class="text-gold-600">✓</span>
+                                    দ্বীন ও দুনিয়ায় সফল মানুষ তৈরি
+                                </li>
+                            </ul>
+                        @endif
                     </div>
                 </div>
+
+                @if(setting('values_content'))
+                    <div class="mt-12 bg-gray-50 rounded-2xl p-8" data-aos="fade-up">
+                        <h2 class="text-2xl font-bold text-gray-800 mb-4">💎 আমাদের মূল্যবোধ</h2>
+                        <div class="grid md:grid-cols-2 gap-4">
+                            @foreach(explode("\n", setting('values_content')) as $value)
+                                @if(trim($value))
+                                    <div class="flex items-start gap-2 text-gray-700">
+                                        <span class="text-primary-600">✓</span>
+                                        {{ trim($value) }}
+                                    </div>
+                                @endif
+                            @endforeach
+                        </div>
+                    </div>
+                @endif
             </div>
         </div>
     </section>
