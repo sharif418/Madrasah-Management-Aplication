@@ -128,9 +128,10 @@ class TeacherResource extends Resource
                                         Forms\Components\Select::make('marital_status')
                                             ->label('বৈবাহিক অবস্থা')
                                             ->options([
-                                                'অবিবাহিত' => 'অবিবাহিত',
-                                                'বিবাহিত' => 'বিবাহিত',
-                                                'বিধবা/বিপত্নীক' => 'বিধবা/বিপত্নীক',
+                                                'single' => 'অবিবাহিত',
+                                                'married' => 'বিবাহিত',
+                                                'divorced' => 'তালাকপ্রাপ্ত',
+                                                'widowed' => 'বিধবা/বিপত্নীক',
                                             ])
                                             ->native(false),
 

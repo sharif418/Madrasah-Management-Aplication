@@ -16,6 +16,7 @@ class Teacher extends Model implements HasMedia
     protected $fillable = [
         'user_id',
         'employee_id',
+        'photo',
         'name',
         'name_en',
         'father_name',
@@ -31,22 +32,30 @@ class Teacher extends Model implements HasMedia
         'email',
         'present_address',
         'permanent_address',
+        'emergency_contact_name',
+        'emergency_contact_phone',
+        'emergency_contact_relation',
         'education',
         'experience',
+        'specialization',
+        'documents',
         'department_id',
         'designation_id',
         'joining_date',
         'basic_salary',
         'employment_type',
         'status',
+        'resignation_date',
         'notes',
     ];
 
     protected $casts = [
         'date_of_birth' => 'date',
         'joining_date' => 'date',
+        'resignation_date' => 'date',
         'education' => 'array',
         'experience' => 'array',
+        'documents' => 'array',
         'basic_salary' => 'decimal:2',
     ];
 
