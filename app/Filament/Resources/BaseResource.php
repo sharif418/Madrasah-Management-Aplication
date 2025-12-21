@@ -6,8 +6,10 @@ use Filament\Resources\Resource;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * Base Resource class with permission checking.
- * All resources should extend this class for proper permission enforcement.
+ * Base Resource class with role-based access checking.
+ * All resources should extend this class for proper access enforcement.
+ * 
+ * Access is determined by config/role-access.php
  */
 abstract class BaseResource extends Resource
 {
@@ -23,27 +25,39 @@ abstract class BaseResource extends Resource
             return false;
         }
 
-        // Super admin can access everything
-        if ($user->hasRole('super_admin')) {
-            return true;
-        }
+        // Get the resource name (e.g., TeacherResource -> Teacher)
+        $resourceName = static::getResourceName();
 
-        // Check if user has ANY permission for this resource
-        return static::hasAnyResourcePermission($user);
+        // Check if user's role has access to this resource
+        return static::roleHasAccess($user, $resourceName);
     }
 
     /**
-     * Check if user has any permission related to this resource.
+     * Check if user's role has access to the resource.
      */
-    public static function hasAnyResourcePermission($user): bool
+    protected static function roleHasAccess($user, string $resourceName): bool
     {
-        $resourceName = static::getResourcePermissionName();
+        // Get role access config
+        $roleAccess = config('role-access', []);
 
-        // Check for any of these permission types
-        $permissionTypes = ['view', 'view_any', 'create', 'update', 'delete', 'delete_any'];
+        // Get user's roles
+        $userRoles = $user->getRoleNames()->toArray();
 
-        foreach ($permissionTypes as $type) {
-            if ($user->can($type . '_' . $resourceName)) {
+        foreach ($userRoles as $role) {
+            // Check if role exists in config
+            if (!isset($roleAccess[$role])) {
+                continue;
+            }
+
+            $allowedResources = $roleAccess[$role];
+
+            // If role has '*' (all access), allow everything
+            if ($allowedResources === '*') {
+                return true;
+            }
+
+            // Check if resource is in the allowed list
+            if (is_array($allowedResources) && in_array($resourceName, $allowedResources)) {
                 return true;
             }
         }
@@ -52,25 +66,13 @@ abstract class BaseResource extends Resource
     }
 
     /**
-     * Get the permission name suffix for this resource.
-     * e.g., TeacherResource -> teacher
-     * e.g., AcademicYearResource -> academic::year
+     * Get the resource name without 'Resource' suffix.
+     * e.g., TeacherResource -> Teacher
      */
-    public static function getResourcePermissionName(): string
+    public static function getResourceName(): string
     {
-        $resourceName = class_basename(static::class);
-        $resourceName = str_replace('Resource', '', $resourceName);
-
-        // Convert CamelCase to lowercase with :: separator
-        return strtolower(preg_replace('/([a-z])([A-Z])/', '$1::$2', $resourceName));
-    }
-
-    /**
-     * Get the view_any permission name for this resource.
-     */
-    public static function getViewAnyPermission(): string
-    {
-        return 'view_any_' . static::getResourcePermissionName();
+        $className = class_basename(static::class);
+        return str_replace('Resource', '', $className);
     }
 
     /**
@@ -78,20 +80,7 @@ abstract class BaseResource extends Resource
      */
     public static function canViewAny(): bool
     {
-        $user = auth()->user();
-
-        if (!$user) {
-            return false;
-        }
-
-        if ($user->hasRole('super_admin')) {
-            return true;
-        }
-
-        $resourceName = static::getResourcePermissionName();
-
-        // Allow view if user has view_any OR view permission
-        return $user->can('view_any_' . $resourceName) || $user->can('view_' . $resourceName);
+        return static::canAccess();
     }
 
     /**
@@ -99,18 +88,15 @@ abstract class BaseResource extends Resource
      */
     public static function canCreate(): bool
     {
-        $user = auth()->user();
+        return static::canAccess();
+    }
 
-        if (!$user) {
-            return false;
-        }
-
-        if ($user->hasRole('super_admin')) {
-            return true;
-        }
-
-        $resourceName = static::getResourcePermissionName();
-        return $user->can('create_' . $resourceName);
+    /**
+     * Determine if the user can view a record.
+     */
+    public static function canView(Model $record): bool
+    {
+        return static::canAccess();
     }
 
     /**
@@ -118,18 +104,7 @@ abstract class BaseResource extends Resource
      */
     public static function canEdit(Model $record): bool
     {
-        $user = auth()->user();
-
-        if (!$user) {
-            return false;
-        }
-
-        if ($user->hasRole('super_admin')) {
-            return true;
-        }
-
-        $resourceName = static::getResourcePermissionName();
-        return $user->can('update_' . $resourceName);
+        return static::canAccess();
     }
 
     /**
@@ -137,17 +112,6 @@ abstract class BaseResource extends Resource
      */
     public static function canDelete(Model $record): bool
     {
-        $user = auth()->user();
-
-        if (!$user) {
-            return false;
-        }
-
-        if ($user->hasRole('super_admin')) {
-            return true;
-        }
-
-        $resourceName = static::getResourcePermissionName();
-        return $user->can('delete_' . $resourceName);
+        return static::canAccess();
     }
 }
