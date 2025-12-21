@@ -28,11 +28,41 @@ abstract class BaseResource extends Resource
             return true;
         }
 
-        // Get the permission name based on resource name
-        // e.g., TeacherResource -> view_any_teacher
-        $permissionName = static::getViewAnyPermission();
+        // Check if user has ANY permission for this resource
+        return static::hasAnyResourcePermission($user);
+    }
 
-        return $user->can($permissionName);
+    /**
+     * Check if user has any permission related to this resource.
+     */
+    public static function hasAnyResourcePermission($user): bool
+    {
+        $resourceName = static::getResourcePermissionName();
+
+        // Check for any of these permission types
+        $permissionTypes = ['view', 'view_any', 'create', 'update', 'delete', 'delete_any'];
+
+        foreach ($permissionTypes as $type) {
+            if ($user->can($type . '_' . $resourceName)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Get the permission name suffix for this resource.
+     * e.g., TeacherResource -> teacher
+     * e.g., AcademicYearResource -> academic::year
+     */
+    public static function getResourcePermissionName(): string
+    {
+        $resourceName = class_basename(static::class);
+        $resourceName = str_replace('Resource', '', $resourceName);
+
+        // Convert CamelCase to lowercase with :: separator
+        return strtolower(preg_replace('/([a-z])([A-Z])/', '$1::$2', $resourceName));
     }
 
     /**
@@ -40,16 +70,7 @@ abstract class BaseResource extends Resource
      */
     public static function getViewAnyPermission(): string
     {
-        // Convert resource class name to permission name
-        // e.g., TeacherResource -> teacher
-        // e.g., AcademicYearResource -> academic::year
-        $resourceName = class_basename(static::class);
-        $resourceName = str_replace('Resource', '', $resourceName);
-
-        // Convert CamelCase to snake_case with :: separator
-        $permissionName = strtolower(preg_replace('/([a-z])([A-Z])/', '$1::$2', $resourceName));
-
-        return 'view_any_' . $permissionName;
+        return 'view_any_' . static::getResourcePermissionName();
     }
 
     /**
@@ -57,7 +78,20 @@ abstract class BaseResource extends Resource
      */
     public static function canViewAny(): bool
     {
-        return static::canAccess();
+        $user = auth()->user();
+
+        if (!$user) {
+            return false;
+        }
+
+        if ($user->hasRole('super_admin')) {
+            return true;
+        }
+
+        $resourceName = static::getResourcePermissionName();
+
+        // Allow view if user has view_any OR view permission
+        return $user->can('view_any_' . $resourceName) || $user->can('view_' . $resourceName);
     }
 
     /**
@@ -75,11 +109,8 @@ abstract class BaseResource extends Resource
             return true;
         }
 
-        $resourceName = class_basename(static::class);
-        $resourceName = str_replace('Resource', '', $resourceName);
-        $permissionName = strtolower(preg_replace('/([a-z])([A-Z])/', '$1::$2', $resourceName));
-
-        return $user->can('create_' . $permissionName);
+        $resourceName = static::getResourcePermissionName();
+        return $user->can('create_' . $resourceName);
     }
 
     /**
@@ -97,11 +128,8 @@ abstract class BaseResource extends Resource
             return true;
         }
 
-        $resourceName = class_basename(static::class);
-        $resourceName = str_replace('Resource', '', $resourceName);
-        $permissionName = strtolower(preg_replace('/([a-z])([A-Z])/', '$1::$2', $resourceName));
-
-        return $user->can('update_' . $permissionName);
+        $resourceName = static::getResourcePermissionName();
+        return $user->can('update_' . $resourceName);
     }
 
     /**
@@ -119,10 +147,7 @@ abstract class BaseResource extends Resource
             return true;
         }
 
-        $resourceName = class_basename(static::class);
-        $resourceName = str_replace('Resource', '', $resourceName);
-        $permissionName = strtolower(preg_replace('/([a-z])([A-Z])/', '$1::$2', $resourceName));
-
-        return $user->can('delete_' . $permissionName);
+        $resourceName = static::getResourcePermissionName();
+        return $user->can('delete_' . $resourceName);
     }
 }
