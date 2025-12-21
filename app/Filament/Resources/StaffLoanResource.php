@@ -7,12 +7,12 @@ use App\Models\StaffLoan;
 use App\Models\Staff;
 use Filament\Forms;
 use Filament\Forms\Form;
-use Filament\Resources\Resource;
+use App\Filament\Resources\BaseResource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Filament\Notifications\Notification;
 
-class StaffLoanResource extends Resource
+class StaffLoanResource extends BaseResource
 {
     protected static ?string $model = StaffLoan::class;
 

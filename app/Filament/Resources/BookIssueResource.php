@@ -8,13 +8,13 @@ use App\Models\Book;
 use App\Models\LibraryMember;
 use Filament\Forms;
 use Filament\Forms\Form;
-use Filament\Resources\Resource;
+use App\Filament\Resources\BaseResource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Filament\Notifications\Notification;
 use Illuminate\Database\Eloquent\Builder;
 
-class BookIssueResource extends Resource
+class BookIssueResource extends BaseResource
 {
     protected static ?string $model = BookIssue::class;
 

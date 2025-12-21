@@ -6,14 +6,14 @@ use App\Filament\Resources\CircularResource\Pages;
 use App\Models\Circular;
 use Filament\Forms;
 use Filament\Forms\Form;
-use Filament\Resources\Resource;
+use App\Filament\Resources\BaseResource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Filament\Notifications\Notification;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Response;
 
-class CircularResource extends Resource
+class CircularResource extends BaseResource
 {
     protected static ?string $model = Circular::class;
 

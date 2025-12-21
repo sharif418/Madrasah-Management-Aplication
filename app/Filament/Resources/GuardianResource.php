@@ -6,7 +6,7 @@ use App\Filament\Resources\GuardianResource\Pages;
 use App\Models\Guardian;
 use Filament\Forms;
 use Filament\Forms\Form;
-use Filament\Resources\Resource;
+use App\Filament\Resources\BaseResource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Filament\Infolists;
@@ -14,7 +14,7 @@ use Filament\Infolists\Infolist;
 use Filament\Tables\Actions\ActionGroup;
 use Filament\Support\Enums\FontWeight;
 
-class GuardianResource extends Resource
+class GuardianResource extends BaseResource
 {
     protected static ?string $model = Guardian::class;
 

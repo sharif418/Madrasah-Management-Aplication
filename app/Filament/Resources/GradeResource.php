@@ -6,11 +6,11 @@ use App\Filament\Resources\GradeResource\Pages;
 use App\Models\Grade;
 use Filament\Forms;
 use Filament\Forms\Form;
-use Filament\Resources\Resource;
+use App\Filament\Resources\BaseResource;
 use Filament\Tables;
 use Filament\Tables\Table;
 
-class GradeResource extends Resource
+class GradeResource extends BaseResource
 {
     protected static ?string $model = Grade::class;
 

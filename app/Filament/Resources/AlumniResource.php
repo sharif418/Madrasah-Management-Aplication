@@ -7,14 +7,14 @@ use App\Models\Alumni;
 use App\Models\Student;
 use Filament\Forms;
 use Filament\Forms\Form;
-use Filament\Resources\Resource;
+use App\Filament\Resources\BaseResource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Filament\Notifications\Notification;
 use Illuminate\Database\Eloquent\Builder;
 use Barryvdh\DomPDF\Facade\Pdf;
 
-class AlumniResource extends Resource
+class AlumniResource extends BaseResource
 {
     protected static ?string $model = Alumni::class;
 

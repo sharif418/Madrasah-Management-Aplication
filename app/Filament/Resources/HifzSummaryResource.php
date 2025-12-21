@@ -6,12 +6,12 @@ use App\Filament\Resources\HifzSummaryResource\Pages;
 use App\Models\HifzSummary;
 use Filament\Forms;
 use Filament\Forms\Form;
-use Filament\Resources\Resource;
+use App\Filament\Resources\BaseResource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 
-class HifzSummaryResource extends Resource
+class HifzSummaryResource extends BaseResource
 {
     protected static ?string $model = HifzSummary::class;
 

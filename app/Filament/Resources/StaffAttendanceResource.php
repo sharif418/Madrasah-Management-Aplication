@@ -9,12 +9,12 @@ use App\Models\Staff;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Forms\Get;
-use Filament\Resources\Resource;
+use App\Filament\Resources\BaseResource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Support\Facades\Auth;
 
-class StaffAttendanceResource extends Resource
+class StaffAttendanceResource extends BaseResource
 {
     protected static ?string $model = StaffAttendance::class;
 

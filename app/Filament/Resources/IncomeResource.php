@@ -8,12 +8,12 @@ use App\Models\IncomeHead;
 use App\Models\BankAccount;
 use Filament\Forms;
 use Filament\Forms\Form;
-use Filament\Resources\Resource;
+use App\Filament\Resources\BaseResource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 
-class IncomeResource extends Resource
+class IncomeResource extends BaseResource
 {
     protected static ?string $model = Income::class;
 

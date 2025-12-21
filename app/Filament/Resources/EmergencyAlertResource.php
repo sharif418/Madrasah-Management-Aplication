@@ -6,12 +6,12 @@ use App\Filament\Resources\EmergencyAlertResource\Pages;
 use App\Models\EmergencyAlert;
 use Filament\Forms;
 use Filament\Forms\Form;
-use Filament\Resources\Resource;
+use App\Filament\Resources\BaseResource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Filament\Notifications\Notification;
 
-class EmergencyAlertResource extends Resource
+class EmergencyAlertResource extends BaseResource
 {
     protected static ?string $model = EmergencyAlert::class;
 

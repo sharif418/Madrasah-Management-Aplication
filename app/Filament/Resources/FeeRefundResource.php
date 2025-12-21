@@ -8,13 +8,13 @@ use App\Models\Student;
 use App\Models\FeePayment;
 use Filament\Forms;
 use Filament\Forms\Form;
-use Filament\Resources\Resource;
+use App\Filament\Resources\BaseResource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Filament\Notifications\Notification;
 use Illuminate\Database\Eloquent\Builder;
 
-class FeeRefundResource extends Resource
+class FeeRefundResource extends BaseResource
 {
     protected static ?string $model = FeeRefund::class;
 

@@ -9,12 +9,12 @@ use App\Models\StudentFee;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Notifications\Notification;
-use Filament\Resources\Resource;
+use App\Filament\Resources\BaseResource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 
-class FeeWaiverResource extends Resource
+class FeeWaiverResource extends BaseResource
 {
     protected static ?string $model = FeeWaiver::class;
 

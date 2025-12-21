@@ -10,7 +10,7 @@ use App\Models\Section;
 use App\Models\AcademicYear;
 use Filament\Forms;
 use Filament\Forms\Form;
-use Filament\Resources\Resource;
+use App\Filament\Resources\BaseResource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Filament\Infolists;
@@ -24,7 +24,7 @@ use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 use Filament\Tables\Columns\SpatieMediaLibraryImageColumn;
 use Filament\Infolists\Components\SpatieMediaLibraryImageEntry;
 
-class StudentResource extends Resource
+class StudentResource extends BaseResource
 {
     protected static ?string $model = Student::class;
 

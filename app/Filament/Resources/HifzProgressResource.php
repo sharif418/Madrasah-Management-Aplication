@@ -6,12 +6,12 @@ use App\Filament\Resources\HifzProgressResource\Pages;
 use App\Models\HifzProgress;
 use Filament\Forms;
 use Filament\Forms\Form;
-use Filament\Resources\Resource;
+use App\Filament\Resources\BaseResource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 
-class HifzProgressResource extends Resource
+class HifzProgressResource extends BaseResource
 {
     protected static ?string $model = HifzProgress::class;
 

@@ -6,11 +6,11 @@ use App\Filament\Resources\MessageTemplateResource\Pages;
 use App\Models\MessageTemplate;
 use Filament\Forms;
 use Filament\Forms\Form;
-use Filament\Resources\Resource;
+use App\Filament\Resources\BaseResource;
 use Filament\Tables;
 use Filament\Tables\Table;
 
-class MessageTemplateResource extends Resource
+class MessageTemplateResource extends BaseResource
 {
     protected static ?string $model = MessageTemplate::class;
 

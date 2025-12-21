@@ -6,11 +6,11 @@ use App\Filament\Resources\AcademicYearResource\Pages;
 use App\Models\AcademicYear;
 use Filament\Forms;
 use Filament\Forms\Form;
-use Filament\Resources\Resource;
+use App\Filament\Resources\BaseResource;
 use Filament\Tables;
 use Filament\Tables\Table;
 
-class AcademicYearResource extends Resource
+class AcademicYearResource extends BaseResource
 {
     protected static ?string $model = AcademicYear::class;
 

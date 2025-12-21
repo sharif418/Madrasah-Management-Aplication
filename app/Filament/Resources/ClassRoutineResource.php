@@ -6,12 +6,12 @@ use App\Filament\Resources\ClassRoutineResource\Pages;
 use App\Models\ClassRoutine;
 use Filament\Forms;
 use Filament\Forms\Form;
-use Filament\Resources\Resource;
+use App\Filament\Resources\BaseResource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 
-class ClassRoutineResource extends Resource
+class ClassRoutineResource extends BaseResource
 {
     protected static ?string $model = ClassRoutine::class;
 

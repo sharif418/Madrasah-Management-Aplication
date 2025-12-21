@@ -6,11 +6,11 @@ use App\Filament\Resources\EventResource\Pages;
 use App\Models\Event;
 use Filament\Forms;
 use Filament\Forms\Form;
-use Filament\Resources\Resource;
+use App\Filament\Resources\BaseResource;
 use Filament\Tables;
 use Filament\Tables\Table;
 
-class EventResource extends Resource
+class EventResource extends BaseResource
 {
     protected static ?string $model = Event::class;
 

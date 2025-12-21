@@ -7,12 +7,12 @@ use App\Models\ClassName;
 use App\Models\Subject;
 use Filament\Forms;
 use Filament\Forms\Form;
-use Filament\Resources\Resource;
+use App\Filament\Resources\BaseResource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Filament\Tables\Actions\ActionGroup;
 
-class SubjectResource extends Resource
+class SubjectResource extends BaseResource
 {
     protected static ?string $model = Subject::class;
 

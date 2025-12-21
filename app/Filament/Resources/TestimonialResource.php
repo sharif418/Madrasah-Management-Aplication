@@ -6,11 +6,11 @@ use App\Filament\Resources\TestimonialResource\Pages;
 use App\Models\Testimonial;
 use Filament\Forms;
 use Filament\Forms\Form;
-use Filament\Resources\Resource;
+use App\Filament\Resources\BaseResource;
 use Filament\Tables;
 use Filament\Tables\Table;
 
-class TestimonialResource extends Resource
+class TestimonialResource extends BaseResource
 {
     protected static ?string $model = Testimonial::class;
 

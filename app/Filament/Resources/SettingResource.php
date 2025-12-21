@@ -6,11 +6,11 @@ use App\Filament\Resources\SettingResource\Pages;
 use App\Models\Setting;
 use Filament\Forms;
 use Filament\Forms\Form;
-use Filament\Resources\Resource;
+use App\Filament\Resources\BaseResource;
 use Filament\Tables;
 use Filament\Tables\Table;
 
-class SettingResource extends Resource
+class SettingResource extends BaseResource
 {
     protected static ?string $model = Setting::class;
 

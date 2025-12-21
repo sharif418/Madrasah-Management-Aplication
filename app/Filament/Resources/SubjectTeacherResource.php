@@ -7,11 +7,11 @@ use App\Models\SubjectTeacher;
 use App\Models\AcademicYear;
 use Filament\Forms;
 use Filament\Forms\Form;
-use Filament\Resources\Resource;
+use App\Filament\Resources\BaseResource;
 use Filament\Tables;
 use Filament\Tables\Table;
 
-class SubjectTeacherResource extends Resource
+class SubjectTeacherResource extends BaseResource
 {
     protected static ?string $model = SubjectTeacher::class;
 

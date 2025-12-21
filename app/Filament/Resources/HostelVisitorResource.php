@@ -8,12 +8,12 @@ use App\Models\Hostel;
 use App\Models\Student;
 use Filament\Forms;
 use Filament\Forms\Form;
-use Filament\Resources\Resource;
+use App\Filament\Resources\BaseResource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 
-class HostelVisitorResource extends Resource
+class HostelVisitorResource extends BaseResource
 {
     protected static ?string $model = HostelVisitor::class;
 

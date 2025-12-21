@@ -6,11 +6,11 @@ use App\Filament\Resources\LibraryMemberResource\Pages;
 use App\Models\LibraryMember;
 use Filament\Forms;
 use Filament\Forms\Form;
-use Filament\Resources\Resource;
+use App\Filament\Resources\BaseResource;
 use Filament\Tables;
 use Filament\Tables\Table;
 
-class LibraryMemberResource extends Resource
+class LibraryMemberResource extends BaseResource
 {
     protected static ?string $model = LibraryMember::class;
 

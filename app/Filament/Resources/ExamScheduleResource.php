@@ -7,12 +7,12 @@ use App\Models\ExamSchedule;
 use App\Models\Exam;
 use Filament\Forms;
 use Filament\Forms\Form;
-use Filament\Resources\Resource;
+use App\Filament\Resources\BaseResource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 
-class ExamScheduleResource extends Resource
+class ExamScheduleResource extends BaseResource
 {
     protected static ?string $model = ExamSchedule::class;
 

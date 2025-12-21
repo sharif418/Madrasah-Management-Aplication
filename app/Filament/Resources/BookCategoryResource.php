@@ -6,11 +6,11 @@ use App\Filament\Resources\BookCategoryResource\Pages;
 use App\Models\BookCategory;
 use Filament\Forms;
 use Filament\Forms\Form;
-use Filament\Resources\Resource;
+use App\Filament\Resources\BaseResource;
 use Filament\Tables;
 use Filament\Tables\Table;
 
-class BookCategoryResource extends Resource
+class BookCategoryResource extends BaseResource
 {
     protected static ?string $model = BookCategory::class;
 

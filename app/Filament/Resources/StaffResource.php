@@ -6,7 +6,7 @@ use App\Filament\Resources\StaffResource\Pages;
 use App\Models\Staff;
 use Filament\Forms;
 use Filament\Forms\Form;
-use Filament\Resources\Resource;
+use App\Filament\Resources\BaseResource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Filament\Infolists;
@@ -18,7 +18,7 @@ use Filament\Support\Enums\FontWeight;
 use Illuminate\Support\Collection;
 use Barryvdh\DomPDF\Facade\Pdf;
 
-class StaffResource extends Resource
+class StaffResource extends BaseResource
 {
     protected static ?string $model = Staff::class;
 

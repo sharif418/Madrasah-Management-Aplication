@@ -9,12 +9,12 @@ use App\Models\ClassName;
 use App\Models\Subject;
 use Filament\Forms;
 use Filament\Forms\Form;
-use Filament\Resources\Resource;
+use App\Filament\Resources\BaseResource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 
-class SyllabusResource extends Resource
+class SyllabusResource extends BaseResource
 {
     protected static ?string $model = Syllabus::class;
 

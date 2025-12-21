@@ -6,13 +6,13 @@ use App\Filament\Resources\AdmissionApplicationResource\Pages;
 use App\Models\AdmissionApplication;
 use Filament\Forms;
 use Filament\Forms\Form;
-use Filament\Resources\Resource;
+use App\Filament\Resources\BaseResource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Filament\Notifications\Notification;
 use Illuminate\Support\Facades\Auth;
 
-class AdmissionApplicationResource extends Resource
+class AdmissionApplicationResource extends BaseResource
 {
     protected static ?string $model = AdmissionApplication::class;
 

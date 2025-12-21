@@ -7,12 +7,12 @@ use App\Models\Attendance;
 use App\Models\AcademicYear;
 use Filament\Forms;
 use Filament\Forms\Form;
-use Filament\Resources\Resource;
+use App\Filament\Resources\BaseResource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 
-class AttendanceResource extends Resource
+class AttendanceResource extends BaseResource
 {
     protected static ?string $model = Attendance::class;
 

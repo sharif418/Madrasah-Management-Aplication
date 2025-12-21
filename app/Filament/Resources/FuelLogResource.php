@@ -8,11 +8,11 @@ use App\Models\Vehicle;
 use App\Models\Staff;
 use Filament\Forms;
 use Filament\Forms\Form;
-use Filament\Resources\Resource;
+use App\Filament\Resources\BaseResource;
 use Filament\Tables;
 use Filament\Tables\Table;
 
-class FuelLogResource extends Resource
+class FuelLogResource extends BaseResource
 {
     protected static ?string $model = FuelLog::class;
 

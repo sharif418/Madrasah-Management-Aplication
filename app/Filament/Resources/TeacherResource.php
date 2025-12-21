@@ -8,7 +8,7 @@ use App\Models\Teacher;
 use App\Models\Department;
 use Filament\Forms;
 use Filament\Forms\Form;
-use Filament\Resources\Resource;
+use App\Filament\Resources\BaseResource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Filament\Infolists;
@@ -19,7 +19,7 @@ use Filament\Tables\Actions\ActionGroup;
 use Filament\Support\Enums\FontWeight;
 use Illuminate\Support\Collection;
 
-class TeacherResource extends Resource
+class TeacherResource extends BaseResource
 {
     protected static ?string $model = Teacher::class;
 

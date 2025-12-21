@@ -10,13 +10,13 @@ use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Forms\Get;
 use Filament\Forms\Set;
-use Filament\Resources\Resource;
+use App\Filament\Resources\BaseResource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Support\Facades\Auth;
 use Filament\Notifications\Notification;
 
-class SalaryPaymentResource extends Resource
+class SalaryPaymentResource extends BaseResource
 {
     protected static ?string $model = SalaryPayment::class;
 

@@ -6,13 +6,13 @@ use App\Filament\Resources\TransportAllocationResource\Pages;
 use App\Models\TransportAllocation;
 use Filament\Forms;
 use Filament\Forms\Form;
-use Filament\Resources\Resource;
+use App\Filament\Resources\BaseResource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Filament\Notifications\Notification;
 use Illuminate\Database\Eloquent\Builder;
 
-class TransportAllocationResource extends Resource
+class TransportAllocationResource extends BaseResource
 {
     protected static ?string $model = TransportAllocation::class;
 

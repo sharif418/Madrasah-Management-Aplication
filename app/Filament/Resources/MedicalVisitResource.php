@@ -7,12 +7,12 @@ use App\Models\MedicalVisit;
 use App\Models\Student;
 use Filament\Forms;
 use Filament\Forms\Form;
-use Filament\Resources\Resource;
+use App\Filament\Resources\BaseResource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 
-class MedicalVisitResource extends Resource
+class MedicalVisitResource extends BaseResource
 {
     protected static ?string $model = MedicalVisit::class;
 

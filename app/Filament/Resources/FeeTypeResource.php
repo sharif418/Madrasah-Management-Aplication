@@ -6,12 +6,12 @@ use App\Filament\Resources\FeeTypeResource\Pages;
 use App\Models\FeeType;
 use Filament\Forms;
 use Filament\Forms\Form;
-use Filament\Resources\Resource;
+use App\Filament\Resources\BaseResource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Support\Str;
 
-class FeeTypeResource extends Resource
+class FeeTypeResource extends BaseResource
 {
     protected static ?string $model = FeeType::class;
 

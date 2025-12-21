@@ -8,7 +8,7 @@ use App\Models\ClassName;
 use App\Models\Department;
 use Filament\Forms;
 use Filament\Forms\Form;
-use Filament\Resources\Resource;
+use App\Filament\Resources\BaseResource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Filament\Infolists;
@@ -16,7 +16,7 @@ use Filament\Infolists\Infolist;
 use Illuminate\Database\Eloquent\Builder;
 use Filament\Tables\Actions\ActionGroup;
 
-class ClassNameResource extends Resource
+class ClassNameResource extends BaseResource
 {
     protected static ?string $model = ClassName::class;
 

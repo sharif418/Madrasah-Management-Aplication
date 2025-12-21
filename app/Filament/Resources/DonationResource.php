@@ -6,12 +6,12 @@ use App\Filament\Resources\DonationResource\Pages;
 use App\Models\Donation;
 use Filament\Forms;
 use Filament\Forms\Form;
-use Filament\Resources\Resource;
+use App\Filament\Resources\BaseResource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 
-class DonationResource extends Resource
+class DonationResource extends BaseResource
 {
     protected static ?string $model = Donation::class;
 

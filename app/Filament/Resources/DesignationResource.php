@@ -6,11 +6,11 @@ use App\Filament\Resources\DesignationResource\Pages;
 use App\Models\Designation;
 use Filament\Forms;
 use Filament\Forms\Form;
-use Filament\Resources\Resource;
+use App\Filament\Resources\BaseResource;
 use Filament\Tables;
 use Filament\Tables\Table;
 
-class DesignationResource extends Resource
+class DesignationResource extends BaseResource
 {
     protected static ?string $model = Designation::class;
 

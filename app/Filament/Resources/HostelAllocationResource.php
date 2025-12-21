@@ -8,13 +8,13 @@ use App\Models\HostelRoom;
 use App\Models\Hostel;
 use Filament\Forms;
 use Filament\Forms\Form;
-use Filament\Resources\Resource;
+use App\Filament\Resources\BaseResource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Filament\Notifications\Notification;
 use Illuminate\Database\Eloquent\Builder;
 
-class HostelAllocationResource extends Resource
+class HostelAllocationResource extends BaseResource
 {
     protected static ?string $model = HostelAllocation::class;
 

@@ -7,13 +7,13 @@ use App\Models\StudentFee;
 use App\Models\FeePayment;
 use Filament\Forms;
 use Filament\Forms\Form;
-use Filament\Resources\Resource;
+use App\Filament\Resources\BaseResource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Filament\Notifications\Notification;
 use Illuminate\Database\Eloquent\Builder;
 
-class FeeCollectionResource extends Resource
+class FeeCollectionResource extends BaseResource
 {
     protected static ?string $model = StudentFee::class;
 

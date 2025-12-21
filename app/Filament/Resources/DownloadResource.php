@@ -6,11 +6,11 @@ use App\Filament\Resources\DownloadResource\Pages;
 use App\Models\Download;
 use Filament\Forms;
 use Filament\Forms\Form;
-use Filament\Resources\Resource;
+use App\Filament\Resources\BaseResource;
 use Filament\Tables;
 use Filament\Tables\Table;
 
-class DownloadResource extends Resource
+class DownloadResource extends BaseResource
 {
     protected static ?string $model = Download::class;
 

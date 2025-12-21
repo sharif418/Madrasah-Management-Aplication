@@ -7,11 +7,11 @@ use App\Models\MealMenu;
 use App\Models\Hostel;
 use Filament\Forms;
 use Filament\Forms\Form;
-use Filament\Resources\Resource;
+use App\Filament\Resources\BaseResource;
 use Filament\Tables;
 use Filament\Tables\Table;
 
-class MealMenuResource extends Resource
+class MealMenuResource extends BaseResource
 {
     protected static ?string $model = MealMenu::class;
 

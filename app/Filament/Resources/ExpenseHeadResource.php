@@ -6,12 +6,12 @@ use App\Filament\Resources\ExpenseHeadResource\Pages;
 use App\Models\ExpenseHead;
 use Filament\Forms;
 use Filament\Forms\Form;
-use Filament\Resources\Resource;
+use App\Filament\Resources\BaseResource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Support\Str;
 
-class ExpenseHeadResource extends Resource
+class ExpenseHeadResource extends BaseResource
 {
     protected static ?string $model = ExpenseHead::class;
 

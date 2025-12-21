@@ -7,12 +7,12 @@ use App\Models\LeaveApplication;
 use App\Models\LeaveType;
 use Filament\Forms;
 use Filament\Forms\Form;
-use Filament\Resources\Resource;
+use App\Filament\Resources\BaseResource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 
-class LeaveApplicationResource extends Resource
+class LeaveApplicationResource extends BaseResource
 {
     protected static ?string $model = LeaveApplication::class;
 

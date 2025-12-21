@@ -8,13 +8,13 @@ use App\Models\Exam;
 use App\Models\AcademicYear;
 use Filament\Forms;
 use Filament\Forms\Form;
-use Filament\Resources\Resource;
+use App\Filament\Resources\BaseResource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Filament\Tables\Actions\ActionGroup;
 
-class ExamResource extends Resource
+class ExamResource extends BaseResource
 {
     protected static ?string $model = Exam::class;
 

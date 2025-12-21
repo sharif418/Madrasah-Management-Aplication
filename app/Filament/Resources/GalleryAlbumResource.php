@@ -6,11 +6,11 @@ use App\Filament\Resources\GalleryAlbumResource\Pages;
 use App\Models\GalleryAlbum;
 use Filament\Forms;
 use Filament\Forms\Form;
-use Filament\Resources\Resource;
+use App\Filament\Resources\BaseResource;
 use Filament\Tables;
 use Filament\Tables\Table;
 
-class GalleryAlbumResource extends Resource
+class GalleryAlbumResource extends BaseResource
 {
     protected static ?string $model = GalleryAlbum::class;
 

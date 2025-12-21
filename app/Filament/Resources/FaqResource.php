@@ -6,11 +6,11 @@ use App\Filament\Resources\FaqResource\Pages;
 use App\Models\Faq;
 use Filament\Forms;
 use Filament\Forms\Form;
-use Filament\Resources\Resource;
+use App\Filament\Resources\BaseResource;
 use Filament\Tables;
 use Filament\Tables\Table;
 
-class FaqResource extends Resource
+class FaqResource extends BaseResource
 {
     protected static ?string $model = Faq::class;
 
