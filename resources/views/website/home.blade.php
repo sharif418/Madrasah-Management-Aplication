@@ -137,42 +137,26 @@
                         স্বাগতম <span class="text-primary-600">{{ institution_name() ?? 'মাদরাসা' }}</span>-তে
                     </h2>
                     <p class="text-gray-600 leading-relaxed mb-6">
-                        আমাদের প্রতিষ্ঠান কুরআন ও সুন্নাহর আলোকে দ্বীনি ও আধুনিক শিক্ষার সমন্বয়ে একটি আদর্শ শিক্ষা প্রতিষ্ঠান। 
-                        এখানে ছাত্ররা হিফজুল কুরআন, ইলমে দ্বীন এবং আধুনিক শিক্ষার মাধ্যমে নিজেদের গড়ে তোলার সুযোগ পায়।
+                        {{ setting('home_welcome_text', 'আমাদের প্রতিষ্ঠান কুরআন ও সুন্নাহর আলোকে দ্বীনি ও আধুনিক শিক্ষার সমন্বয়ে একটি আদর্শ শিক্ষা প্রতিষ্ঠান। এখানে ছাত্ররা হিফজুল কুরআন, ইলমে দ্বীন এবং আধুনিক শিক্ষার মাধ্যমে নিজেদের গড়ে তোলার সুযোগ পায়।') }}
                     </p>
                     <div class="grid grid-cols-2 gap-4 mb-6">
-                        <div class="flex items-center gap-3">
-                            <div class="w-10 h-10 bg-primary-100 rounded-full flex items-center justify-center">
-                                <svg class="w-5 h-5 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
-                                </svg>
-                            </div>
-                            <span class="text-gray-700">হিফজ বিভাগ</span>
-                        </div>
-                        <div class="flex items-center gap-3">
-                            <div class="w-10 h-10 bg-primary-100 rounded-full flex items-center justify-center">
-                                <svg class="w-5 h-5 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
-                                </svg>
-                            </div>
-                            <span class="text-gray-700">কিতাব বিভাগ</span>
-                        </div>
-                        <div class="flex items-center gap-3">
-                            <div class="w-10 h-10 bg-primary-100 rounded-full flex items-center justify-center">
-                                <svg class="w-5 h-5 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
-                                </svg>
-                            </div>
-                            <span class="text-gray-700">যোগ্য শিক্ষকমণ্ডলী</span>
-                        </div>
-                        <div class="flex items-center gap-3">
-                            <div class="w-10 h-10 bg-primary-100 rounded-full flex items-center justify-center">
-                                <svg class="w-5 h-5 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
-                                </svg>
-                            </div>
-                            <span class="text-gray-700">আধুনিক সুযোগ-সুবিধা</span>
-                        </div>
+                        @php
+                            $features = setting('home_features') 
+                                ? array_filter(explode("\n", setting('home_features'))) 
+                                : ['হিফজ বিভাগ', 'কিতাব বিভাগ', 'যোগ্য শিক্ষকমণ্ডলী', 'আধুনিক সুযোগ-সুবিধা'];
+                        @endphp
+                        @foreach($features as $feature)
+                            @if(trim($feature))
+                                <div class="flex items-center gap-3">
+                                    <div class="w-10 h-10 bg-primary-100 rounded-full flex items-center justify-center">
+                                        <svg class="w-5 h-5 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                                        </svg>
+                                    </div>
+                                    <span class="text-gray-700">{{ trim($feature) }}</span>
+                                </div>
+                            @endif
+                        @endforeach
                     </div>
                     <a href="{{ route('about') }}" class="inline-flex items-center gap-2 text-primary-600 font-semibold hover:gap-3 transition-all">
                         আরও জানুন
@@ -185,9 +169,9 @@
                     <div class="bg-primary-100 rounded-3xl p-8">
                         <div class="bg-gradient-to-br from-primary-600 to-primary-800 rounded-2xl p-10 text-center text-white">
                             <div class="text-6xl mb-4">🕌</div>
-                            <h3 class="text-2xl font-bold mb-2">আমাদের লক্ষ্য</h3>
+                            <h3 class="text-2xl font-bold mb-2">{{ setting('home_mission_title', 'আমাদের লক্ষ্য') }}</h3>
                             <p class="text-primary-100">
-                                কুরআন-সুন্নাহর আলোকে আদর্শ মানুষ তৈরি করা এবং দ্বীন ও দুনিয়া উভয় ক্ষেত্রে সফল মুসলিম গড়ে তোলা।
+                                {{ setting('home_mission_text', 'কুরআন-সুন্নাহর আলোকে আদর্শ মানুষ তৈরি করা এবং দ্বীন ও দুনিয়া উভয় ক্ষেত্রে সফল মুসলিম গড়ে তোলা।') }}
                             </p>
                         </div>
                     </div>

@@ -34,6 +34,9 @@ class WebsiteContent extends BasePage implements HasForms
             // Home Page
             'home_welcome_title' => Setting::getValue('home_welcome_title', ''),
             'home_welcome_text' => Setting::getValue('home_welcome_text', ''),
+            'home_features' => Setting::getValue('home_features', ''),
+            'home_mission_title' => Setting::getValue('home_mission_title', ''),
+            'home_mission_text' => Setting::getValue('home_mission_text', ''),
             'home_why_choose_title' => Setting::getValue('home_why_choose_title', ''),
             'home_why_choose_items' => Setting::getValue('home_why_choose_items', ''),
 
@@ -104,29 +107,31 @@ class WebsiteContent extends BasePage implements HasForms
                             ->icon('heroicon-o-home')
                             ->schema([
                                 Forms\Components\Section::make('স্বাগতম সেকশন')
-                                    ->description('হোম পেজের শুরুতে যে বার্তা দেখাবে')
+                                    ->description('হোম পেজের "আমাদের সম্পর্কে" অংশ')
                                     ->schema([
-                                        Forms\Components\TextInput::make('home_welcome_title')
-                                            ->label('শিরোনাম')
-                                            ->placeholder('আমাদের মাদরাসায় স্বাগতম'),
                                         Forms\Components\Textarea::make('home_welcome_text')
                                             ->label('বিবরণ')
-                                            ->rows(3)
-                                            ->placeholder('প্রতিষ্ঠান সম্পর্কে সংক্ষিপ্ত বিবরণ'),
+                                            ->rows(4)
+                                            ->helperText('হোম পেজে "আমাদের সম্পর্কে" অংশে দেখানো বিবরণ')
+                                            ->placeholder('আমাদের প্রতিষ্ঠান কুরআন ও সুন্নাহর আলোকে দ্বীনি ও আধুনিক শিক্ষার সমন্বয়ে একটি আদর্শ শিক্ষা প্রতিষ্ঠান।'),
+                                        Forms\Components\Textarea::make('home_features')
+                                            ->label('বৈশিষ্ট্য তালিকা (চেকমার্ক সহ)')
+                                            ->rows(4)
+                                            ->helperText('প্রতি লাইনে একটি করে বৈশিষ্ট্য')
+                                            ->placeholder("হিফজ বিভাগ\nকিতাব বিভাগ\nযোগ্য শিক্ষকমণ্ডলী\nআধুনিক সুযোগ-সুবিধা"),
                                     ]),
 
-                                Forms\Components\Section::make('কেন আমাদের বেছে নেবেন')
-                                    ->description('প্রতিষ্ঠানের বৈশিষ্ট্য')
+                                Forms\Components\Section::make('আমাদের লক্ষ্য (সবুজ বক্স)')
+                                    ->description('হোম পেজের ডান পাশে সবুজ বক্সে যা দেখাবে')
                                     ->schema([
-                                        Forms\Components\TextInput::make('home_why_choose_title')
+                                        Forms\Components\TextInput::make('home_mission_title')
                                             ->label('শিরোনাম')
-                                            ->placeholder('কেন আমাদের বেছে নেবেন'),
-                                        Forms\Components\Textarea::make('home_why_choose_items')
-                                            ->label('বৈশিষ্ট্যসমূহ')
-                                            ->rows(5)
-                                            ->helperText('প্রতি লাইনে একটি করে বৈশিষ্ট্য লিখুন')
-                                            ->placeholder("অভিজ্ঞ শিক্ষকমণ্ডলী\nআধুনিক পাঠ্যক্রম\nকুরআন হিফজের সুবিধা"),
-                                    ])->collapsed(),
+                                            ->placeholder('আমাদের লক্ষ্য'),
+                                        Forms\Components\Textarea::make('home_mission_text')
+                                            ->label('লক্ষ্য বিবরণ')
+                                            ->rows(3)
+                                            ->placeholder('কুরআন-সুন্নাহর আলোকে আদর্শ মানুষ তৈরি করা এবং দ্বীন ও দুনিয়া উভয় ক্ষেত্রে সফল মুসলিম গড়ে তোলা।'),
+                                    ]),
                             ]),
 
                         // ==========================================
