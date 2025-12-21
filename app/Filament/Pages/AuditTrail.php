@@ -9,7 +9,7 @@ use App\Models\SalaryPayment;
 use App\Models\SalaryAdvance;
 use App\Models\StaffLoan;
 use App\Models\FeeRefund;
-use Filament\Pages\Page;
+use App\Filament\Pages\BasePage;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Forms\Concerns\InteractsWithForms;
@@ -17,7 +17,7 @@ use Filament\Forms\Contracts\HasForms;
 use Illuminate\Support\Collection;
 use Carbon\Carbon;
 
-class AuditTrail extends Page implements HasForms
+class AuditTrail extends BasePage implements HasForms
 {
     use InteractsWithForms;
 

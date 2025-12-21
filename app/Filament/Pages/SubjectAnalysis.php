@@ -15,10 +15,10 @@ use Filament\Forms\Contracts\HasForms;
 use Filament\Forms\Form;
 use Filament\Forms\Get;
 use Filament\Notifications\Notification;
-use Filament\Pages\Page;
+use App\Filament\Pages\BasePage;
 use Illuminate\Support\Facades\DB;
 
-class SubjectAnalysis extends Page implements HasForms
+class SubjectAnalysis extends BasePage implements HasForms
 {
     use InteractsWithForms;
 

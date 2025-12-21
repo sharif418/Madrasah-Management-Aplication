@@ -5,7 +5,7 @@ namespace App\Filament\Pages;
 use App\Models\Book;
 use App\Models\BookCategory;
 use App\Models\BookIssue;
-use Filament\Pages\Page;
+use App\Filament\Pages\BasePage;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Forms\Concerns\InteractsWithForms;
@@ -14,7 +14,7 @@ use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Response;
 use Carbon\Carbon;
 
-class LibraryStockReport extends Page implements HasForms
+class LibraryStockReport extends BasePage implements HasForms
 {
     use InteractsWithForms;
 

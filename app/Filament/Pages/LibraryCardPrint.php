@@ -3,7 +3,7 @@
 namespace App\Filament\Pages;
 
 use App\Models\LibraryMember;
-use Filament\Pages\Page;
+use App\Filament\Pages\BasePage;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Forms\Concerns\InteractsWithForms;
@@ -13,7 +13,7 @@ use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Collection;
 
-class LibraryCardPrint extends Page implements HasForms
+class LibraryCardPrint extends BasePage implements HasForms
 {
     use InteractsWithForms;
 

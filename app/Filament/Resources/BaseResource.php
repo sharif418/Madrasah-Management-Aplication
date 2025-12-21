@@ -38,7 +38,7 @@ abstract class BaseResource extends Resource
     protected static function roleHasAccess($user, string $resourceName): bool
     {
         // Get role access config
-        $roleAccess = config('role-access', []);
+        $roleAccess = config('roleaccess', []);
 
         // Get user's roles
         $userRoles = $user->getRoleNames()->toArray();

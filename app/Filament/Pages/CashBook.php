@@ -5,7 +5,7 @@ namespace App\Filament\Pages;
 use App\Models\Income;
 use App\Models\Expense;
 use App\Models\FeePayment;
-use Filament\Pages\Page;
+use App\Filament\Pages\BasePage;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Forms\Concerns\InteractsWithForms;
@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Collection;
 use Carbon\Carbon;
 
-class CashBook extends Page implements HasForms
+class CashBook extends BasePage implements HasForms
 {
     use InteractsWithForms;
 

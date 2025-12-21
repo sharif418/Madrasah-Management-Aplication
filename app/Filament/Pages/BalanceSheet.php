@@ -9,7 +9,7 @@ use App\Models\StudentFee;
 use App\Models\BankAccount;
 use App\Models\SalaryAdvance;
 use App\Models\StaffLoan;
-use Filament\Pages\Page;
+use App\Filament\Pages\BasePage;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Forms\Concerns\InteractsWithForms;
@@ -18,7 +18,7 @@ use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Response;
 use Carbon\Carbon;
 
-class BalanceSheet extends Page implements HasForms
+class BalanceSheet extends BasePage implements HasForms
 {
     use InteractsWithForms;
 

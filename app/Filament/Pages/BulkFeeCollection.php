@@ -7,7 +7,7 @@ use App\Models\FeePayment;
 use App\Models\Student;
 use App\Models\ClassName;
 use App\Models\FeeType;
-use Filament\Pages\Page;
+use App\Filament\Pages\BasePage;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Forms\Concerns\InteractsWithForms;
@@ -18,7 +18,7 @@ use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Collection;
 
-class BulkFeeCollection extends Page implements HasForms
+class BulkFeeCollection extends BasePage implements HasForms
 {
     use InteractsWithForms;
 

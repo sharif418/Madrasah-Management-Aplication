@@ -6,7 +6,7 @@ use App\Models\Income;
 use App\Models\Expense;
 use App\Models\IncomeHead;
 use App\Models\ExpenseHead;
-use Filament\Pages\Page;
+use App\Filament\Pages\BasePage;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Forms\Concerns\InteractsWithForms;
@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Collection;
 use Carbon\Carbon;
 
-class Ledger extends Page implements HasForms
+class Ledger extends BasePage implements HasForms
 {
     use InteractsWithForms;
 

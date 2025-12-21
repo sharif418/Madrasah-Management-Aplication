@@ -7,7 +7,7 @@ use App\Models\KitabProgress;
 use App\Models\Student;
 use App\Models\ClassName;
 use App\Models\AcademicYear;
-use Filament\Pages\Page;
+use App\Filament\Pages\BasePage;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Forms\Concerns\InteractsWithForms;
@@ -16,7 +16,7 @@ use Illuminate\Support\Collection;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Response;
 
-class KitabProgressDashboard extends Page implements HasForms
+class KitabProgressDashboard extends BasePage implements HasForms
 {
     use InteractsWithForms;
 

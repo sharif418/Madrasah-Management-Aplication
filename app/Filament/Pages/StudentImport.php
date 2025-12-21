@@ -2,7 +2,7 @@
 
 namespace App\Filament\Pages;
 
-use Filament\Pages\Page;
+use App\Filament\Pages\BasePage;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Forms\Contracts\HasForms;
@@ -13,7 +13,7 @@ use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Storage;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
-class StudentImport extends Page implements HasForms
+class StudentImport extends BasePage implements HasForms
 {
     use InteractsWithForms;
 

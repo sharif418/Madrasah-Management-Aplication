@@ -5,14 +5,14 @@ namespace App\Filament\Pages;
 use App\Models\Setting;
 use Filament\Forms;
 use Filament\Forms\Form;
-use Filament\Pages\Page;
+use App\Filament\Pages\BasePage;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Notifications\Notification;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Storage;
 
-class GeneralSettings extends Page implements HasForms
+class GeneralSettings extends BasePage implements HasForms
 {
     use InteractsWithForms;
 

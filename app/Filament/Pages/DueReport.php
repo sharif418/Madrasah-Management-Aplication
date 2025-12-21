@@ -5,7 +5,7 @@ namespace App\Filament\Pages;
 use App\Models\StudentFee;
 use App\Models\Student;
 use App\Models\ClassName;
-use Filament\Pages\Page;
+use App\Filament\Pages\BasePage;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Filament\Tables\Contracts\HasTable;
@@ -17,7 +17,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Response;
 
-class DueReport extends Page implements HasTable, HasForms
+class DueReport extends BasePage implements HasTable, HasForms
 {
     use InteractsWithTable;
     use InteractsWithForms;

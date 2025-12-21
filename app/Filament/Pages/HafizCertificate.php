@@ -4,7 +4,7 @@ namespace App\Filament\Pages;
 
 use App\Models\HifzProgress;
 use App\Models\Student;
-use Filament\Pages\Page;
+use App\Filament\Pages\BasePage;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Forms\Concerns\InteractsWithForms;
@@ -13,7 +13,7 @@ use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Response;
 use Filament\Notifications\Notification;
 
-class HafizCertificate extends Page implements HasForms
+class HafizCertificate extends BasePage implements HasForms
 {
     use InteractsWithForms;
 

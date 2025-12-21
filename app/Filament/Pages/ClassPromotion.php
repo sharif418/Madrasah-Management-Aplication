@@ -16,7 +16,7 @@ use Filament\Forms\Form;
 use Filament\Forms\Get;
 use Filament\Forms\Set;
 use Filament\Notifications\Notification;
-use Filament\Pages\Page;
+use App\Filament\Pages\BasePage;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Concerns\InteractsWithTable;
 use Filament\Tables\Contracts\HasTable;
@@ -25,7 +25,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 
-class ClassPromotion extends Page implements HasForms, HasTable
+class ClassPromotion extends BasePage implements HasForms, HasTable
 {
     use InteractsWithForms;
     use InteractsWithTable;

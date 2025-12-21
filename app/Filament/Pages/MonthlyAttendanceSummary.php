@@ -14,10 +14,10 @@ use Filament\Forms\Contracts\HasForms;
 use Filament\Forms\Form;
 use Filament\Forms\Get;
 use Filament\Notifications\Notification;
-use Filament\Pages\Page;
+use App\Filament\Pages\BasePage;
 use Illuminate\Support\Carbon;
 
-class MonthlyAttendanceSummary extends Page implements HasForms
+class MonthlyAttendanceSummary extends BasePage implements HasForms
 {
     use InteractsWithForms;
 

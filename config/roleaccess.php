@@ -1,25 +1,24 @@
 <?php
 
 /**
- * Role-based Resource Access Configuration
+ * Role-based Access Configuration
  * 
- * This file defines which resources each role can access.
+ * This file defines which Resources and Pages each role can access.
  * super_admin and principal have access to everything.
  * Other roles have limited access based on their responsibilities.
  * 
- * Resource names are the class names without 'Resource' suffix.
- * e.g., 'Teacher' for TeacherResource
+ * Names are class names without 'Resource' or 'Page' suffix.
+ * e.g., 'Teacher' for TeacherResource, 'AttendanceReport' for AttendanceReport page
  */
 
 return [
     /**
      * super_admin has access to EVERYTHING
-     * No need to list resources - handled in BaseResource
      */
     'super_admin' => '*',
 
     /**
-     * principal has access to EVERYTHING except system settings
+     * principal has access to EVERYTHING
      */
     'principal' => '*',
 
@@ -27,7 +26,7 @@ return [
      * academic_admin - Manages academic affairs
      */
     'academic_admin' => [
-        // Academic Setup
+        // Resources - Academic Setup
         'AcademicYear',
         'Department',
         'Designation',
@@ -38,51 +37,64 @@ return [
         'Shift',
         'Grade',
 
-        // Students
+        // Resources - Students
         'Student',
         'StudentHealth',
         'Guardian',
-        'Admission', // AdmissionApplication
+        'AdmissionApplication',
         'Alumni',
 
-        // Teachers & Staff
+        // Resources - Teachers & Staff
         'Teacher',
         'Staff',
 
-        // Attendance
+        // Resources - Attendance
         'Attendance',
         'StaffAttendance',
 
-        // Examination
+        // Resources - Examination
         'Exam',
         'ExamSchedule',
         'Syllabus',
         'ClassRoutine',
 
-        // Discipline
+        // Resources - Discipline
         'DisciplineIncident',
 
-        // Notices & Communication
+        // Resources - Communication
         'Notice',
         'Circular',
         'Event',
         'Download',
+
+        // Pages
+        'AttendanceReport',
+        'MonthlyAttendanceSummary',
+        'ClassPromotion',
+        'StudentImport',
+        'ProgressReport',
+        'ReportCardGeneration',
+        'AdmitCardReport',
+        'SeatPlan',
+        'SubjectAnalysis',
+        'CertificateGeneration',
+        'AttendanceCalendar',
     ],
 
     /**
      * accounts_admin - Manages finance and fees
      */
     'accounts_admin' => [
-        // Fee Management
+        // Resources - Fee Management
         'FeeType',
         'FeeStructure',
-        'FeeCollection', // StudentFee
+        'FeeCollection',
         'FeeDiscount',
         'FeeWaiver',
         'FeeRefund',
         'FeeInstallment',
 
-        // Accounts
+        // Resources - Accounts
         'Income',
         'IncomeHead',
         'Expense',
@@ -91,78 +103,84 @@ return [
         'Budget',
         'Donation',
 
-        // Salary
+        // Resources - Salary
         'SalaryPayment',
         'SalaryAdvance',
         'StaffLoan',
 
-        // View Students (for fee collection)
+        // Resources - View Students (for fee collection)
         'Student',
+
+        // Pages - Accounts
+        'BulkFeeCollection',
+        'DueReport',
+        'FeeReminder',
+        'FeeSummary',
+        'CashBook',
+        'Ledger',
+        'BalanceSheet',
+        'ProfitLossStatement',
     ],
 
     /**
      * teacher - Teaching staff with limited access
      */
     'teacher' => [
-        // Attendance (can take for their classes)
+        // Resources
         'Attendance',
-
-        // Class Routine (view)
         'ClassRoutine',
-
-        // Hifz Module (entry)
         'HifzProgress',
         'HifzSummary',
         'KitabProgress',
         'Kitab',
-
-        // Leave Applications (own)
         'LeaveApplication',
-
-        // View Only
         'Notice',
         'Circular',
         'Event',
         'Syllabus',
 
-        // Subject & Class (view)
-        'Subject',
-        'ClassName',
-        'Section',
+        // Pages
+        'HifzDailyEntry',
+        'HifzProgressReport',
+        'KitabProgressDashboard',
+        'AttendanceReport',
     ],
 
     /**
      * librarian - Library management
      */
     'librarian' => [
+        // Resources
         'Book',
         'BookCategory',
         'BookIssue',
         'LibraryMember',
-
-        // View students for issuing
         'Student',
+
+        // Pages
+        'LibraryCardPrint',
+        'LibraryStockReport',
     ],
 
     /**
      * hostel_warden - Hostel management
      */
     'hostel_warden' => [
+        // Resources
         'Hostel',
         'HostelRoom',
         'HostelAllocation',
         'HostelVisitor',
         'MealMenu',
         'MedicalVisit',
-
-        // View students
         'Student',
     ],
 
     /**
-     * transport_manager - Transport management (optional role)
+     * transport_manager - Transport management
      */
     'transport_manager' => [
+        // Resources
         'Vehicle',
         'VehicleMaintenance',
         'TransportRoute',

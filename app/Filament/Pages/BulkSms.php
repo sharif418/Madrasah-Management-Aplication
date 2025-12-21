@@ -8,7 +8,7 @@ use App\Models\Staff;
 use App\Models\ClassName;
 use App\Models\MessageTemplate;
 use App\Models\SmsLog;
-use Filament\Pages\Page;
+use App\Filament\Pages\BasePage;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Forms\Concerns\InteractsWithForms;
@@ -16,7 +16,7 @@ use Filament\Forms\Contracts\HasForms;
 use Filament\Notifications\Notification;
 use Illuminate\Support\Collection;
 
-class BulkSms extends Page implements HasForms
+class BulkSms extends BasePage implements HasForms
 {
     use InteractsWithForms;
 

@@ -7,7 +7,7 @@ use App\Models\Student;
 use App\Models\ClassName;
 use App\Models\AcademicYear;
 use App\Models\Teacher;
-use Filament\Pages\Page;
+use App\Filament\Pages\BasePage;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Forms\Concerns\InteractsWithForms;
@@ -15,7 +15,7 @@ use Filament\Forms\Contracts\HasForms;
 use Filament\Notifications\Notification;
 use Illuminate\Support\Collection;
 
-class HifzDailyEntry extends Page implements HasForms
+class HifzDailyEntry extends BasePage implements HasForms
 {
     use InteractsWithForms;
 
