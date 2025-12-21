@@ -66,6 +66,9 @@ RUN echo '#!/bin/sh' > /entrypoint.sh \
     && echo 'php artisan migrate --force || true' >> /entrypoint.sh \
     && echo 'php artisan db:seed --force || true' >> /entrypoint.sh \
     && echo 'php artisan storage:link || true' >> /entrypoint.sh \
+    && echo 'echo "admin" | php artisan shield:generate --all --option=policies_and_permissions || true' >> /entrypoint.sh \
+    && echo 'php artisan optimize:clear || true' >> /entrypoint.sh \
+    && echo 'php artisan config:cache' >> /entrypoint.sh \
     && echo 'exec php artisan serve --host=0.0.0.0 --port=8000' >> /entrypoint.sh \
     && chmod +x /entrypoint.sh
 

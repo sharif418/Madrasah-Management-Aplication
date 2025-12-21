@@ -25,7 +25,7 @@ return [
     'super_admin' => [
         'enabled' => true,
         'name' => 'super_admin',
-        'define_via_gate' => false,
+        'define_via_gate' => true,
         'intercept_gate' => 'before', // after
     ],
 
@@ -62,7 +62,7 @@ return [
     ],
 
     'generator' => [
-        'option' => 'permissions',
+        'option' => 'policies_and_permissions',
         'policy_directory' => 'Policies',
         'policy_namespace' => 'Policies',
     ],
@@ -89,7 +89,7 @@ return [
     ],
 
     'register_role_policy' => [
-        'enabled' => false,
+        'enabled' => true,
     ],
 
 ];
