@@ -20,7 +20,7 @@
                                 ছাত্র তালিকা - মোট {{ $students->count() }} জন
                             </h3>
                             <p class="text-sm text-gray-500 dark:text-gray-400">
-                                নিচের সকল ছাত্রকে নির্বাচিত ফি এসাইন করা হবে
+                                নিচের সকল ছাত্রকে নির্বাচিত ফি এসাইন করা হবে। প্রয়োজনে আলাদা ছাড় দিন।
                             </p>
                         </div>
 
@@ -45,6 +45,10 @@
                                             class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">
                                             পিতার নাম
                                         </th>
+                                        <th
+                                            class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">
+                                            ছাড় (ঐচ্ছিক)
+                                        </th>
                                     </tr>
                                 </thead>
                                 <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
@@ -64,6 +68,18 @@
                                             <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
                                                 {{ $student->father_name }}
                                             </td>
+                                            <td class="px-4 py-3 whitespace-nowrap">
+                                                <select
+                                                    wire:change="setStudentDiscount({{ $student->id }}, $event.target.value)"
+                                                    class="text-sm border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-md shadow-sm focus:border-primary-500 focus:ring-primary-500">
+                                                    <option value="">ডিফল্ট ছাড়</option>
+                                                    @foreach($this->getDiscountOptions() as $id => $name)
+                                                        <option value="{{ $id }}" {{ ($studentDiscounts[$student->id] ?? null) == $id ? 'selected' : '' }}>
+                                                            {{ $name }}
+                                                        </option>
+                                                    @endforeach
+                                                </select>
+                                            </td>
                                         </tr>
                                     @endforeach
                                 </tbody>
@@ -72,7 +88,12 @@
 
                         <!-- Footer -->
                         <div class="p-4 bg-gray-50 dark:bg-gray-800/50 border-t border-gray-200 dark:border-gray-700">
-                            <div class="flex justify-end">
+                            <div class="flex justify-between items-center">
+                                <p class="text-sm text-gray-500 dark:text-gray-400">
+                                    <span class="font-medium text-gray-700 dark:text-gray-300">টিপস:</span>
+                                    উপরে "সকলের জন্য ছাড়" সিলেক্ট করলে সেটি সবার জন্য প্রযোজ্য হবে। এখানে আলাদা ছাড় দিলে
+                                    সেটি ওভাররাইড হবে।
+                                </p>
                                 <x-filament::button type="submit" color="success" size="lg">
                                     সকলকে ফি এসাইন করুন
                                 </x-filament::button>

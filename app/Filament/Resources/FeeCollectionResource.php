@@ -204,15 +204,56 @@ class FeeCollectionResource extends BaseResource
                     })
                     ->visible(fn(StudentFee $record): bool => $record->status !== 'paid' && $record->status !== 'waived'),
 
+                Tables\Actions\Action::make('discount')
+                    ->label('ছাড় দিন')
+                    ->icon('heroicon-o-receipt-percent')
+                    ->color('info')
+                    ->form([
+                        Forms\Components\Select::make('fee_discount_id')
+                            ->label('ছাড়ের ধরণ')
+                            ->options(\App\Models\FeeDiscount::where('is_active', true)->pluck('name', 'id'))
+                            ->required()
+                            ->native(false)
+                            ->helperText('এই ছাড় প্রয়োগ করলে ফি নতুন করে গণনা হবে'),
+                    ])
+                    ->action(function (StudentFee $record, array $data): void {
+                        $discount = \App\Models\FeeDiscount::find($data['fee_discount_id']);
+
+                        if (!$discount) {
+                            Notification::make()->danger()->title('ছাড় পাওয়া যায়নি')->send();
+                            return;
+                        }
+
+                        $discountAmount = $discount->calculateDiscount($record->original_amount);
+                        $finalAmount = max(0, $record->original_amount - $discountAmount);
+                        $dueAmount = max(0, $finalAmount - $record->paid_amount);
+
+                        $record->update([
+                            'fee_discount_id' => $discount->id,
+                            'discount_amount' => $discountAmount,
+                            'final_amount' => $finalAmount,
+                            'due_amount' => $dueAmount,
+                            'status' => $dueAmount <= 0 ? 'paid' : ($record->paid_amount > 0 ? 'partial' : 'pending'),
+                        ]);
+
+                        Notification::make()
+                            ->success()
+                            ->title('ছাড় প্রয়োগ হয়েছে!')
+                            ->body("ছাড়: ৳" . number_format($discountAmount, 2) . " - নতুন বকেয়া: ৳" . number_format($dueAmount, 2))
+                            ->send();
+                    })
+                    ->visible(fn(StudentFee $record): bool => $record->status !== 'paid' && $record->status !== 'waived' && !$record->fee_discount_id),
+
                 Tables\Actions\Action::make('waive')
                     ->label('মওকুফ')
                     ->icon('heroicon-o-x-circle')
                     ->color('warning')
                     ->requiresConfirmation()
-                    ->modalDescription('এই ফি মওকুফ করতে চান?')
+                    ->modalDescription('এই ফি সম্পূর্ণ মওকুফ করতে চান?')
                     ->action(function (StudentFee $record): void {
                         $record->update([
                             'status' => 'waived',
+                            'due_amount' => 0,
                         ]);
 
                         Notification::make()

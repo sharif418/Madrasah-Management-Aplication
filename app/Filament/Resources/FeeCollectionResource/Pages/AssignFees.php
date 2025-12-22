@@ -5,6 +5,7 @@ namespace App\Filament\Resources\FeeCollectionResource\Pages;
 use App\Filament\Resources\FeeCollectionResource;
 use App\Models\Student;
 use App\Models\FeeStructure;
+use App\Models\FeeDiscount;
 use App\Models\StudentFee;
 use App\Models\AcademicYear;
 use Filament\Resources\Pages\Page;
@@ -28,6 +29,7 @@ class AssignFees extends Page implements HasForms
     public ?array $data = [];
     public Collection $students;
     public bool $showStudents = false;
+    public array $studentDiscounts = []; // Track individual student discounts
 
     public function mount(): void
     {
@@ -99,9 +101,19 @@ class AssignFees extends Page implements HasForms
                                     ->default(now()->year),
                             ]),
 
-                        Forms\Components\DatePicker::make('due_date')
-                            ->label('পরিশোধের শেষ তারিখ')
-                            ->native(false),
+                        Forms\Components\Grid::make(2)
+                            ->schema([
+                                Forms\Components\DatePicker::make('due_date')
+                                    ->label('পরিশোধের শেষ তারিখ')
+                                    ->native(false),
+
+                                Forms\Components\Select::make('default_discount_id')
+                                    ->label('সকলের জন্য ছাড় (ঐচ্ছিক)')
+                                    ->options(FeeDiscount::where('is_active', true)->pluck('name', 'id'))
+                                    ->placeholder('কোন ছাড় নেই')
+                                    ->native(false)
+                                    ->helperText('এই ছাড় সকল ছাত্রের জন্য প্রযোজ্য হবে। পৃথক ছাড়ের জন্য নিচে দেখুন।'),
+                            ]),
                     ]),
             ])
             ->statePath('data');
@@ -124,12 +136,23 @@ class AssignFees extends Page implements HasForms
             ->orderBy('roll_no')
             ->get();
 
+        // Initialize individual discounts array
+        $this->studentDiscounts = [];
+        foreach ($this->students as $student) {
+            $this->studentDiscounts[$student->id] = null;
+        }
+
         $this->showStudents = true;
 
         Notification::make()
             ->success()
             ->title($this->students->count() . ' জন ছাত্র পাওয়া গেছে')
             ->send();
+    }
+
+    public function setStudentDiscount($studentId, $discountId): void
+    {
+        $this->studentDiscounts[$studentId] = $discountId ?: null;
     }
 
     public function assignFees(): void
@@ -141,6 +164,9 @@ class AssignFees extends Page implements HasForms
             Notification::make()->danger()->title('ফি কাঠামো পাওয়া যায়নি')->send();
             return;
         }
+
+        $defaultDiscountId = $data['default_discount_id'] ?? null;
+        $defaultDiscount = $defaultDiscountId ? FeeDiscount::find($defaultDiscountId) : null;
 
         $created = 0;
         $skipped = 0;
@@ -158,16 +184,31 @@ class AssignFees extends Page implements HasForms
                 continue;
             }
 
+            // Get applicable discount (individual > default)
+            $studentDiscountId = $this->studentDiscounts[$student->id] ?? $defaultDiscountId;
+            $discount = $studentDiscountId ? FeeDiscount::find($studentDiscountId) : $defaultDiscount;
+
+            // Calculate discount amount
+            $originalAmount = $feeStructure->amount;
+            $discountAmount = 0;
+
+            if ($discount) {
+                $discountAmount = $discount->calculateDiscount($originalAmount);
+            }
+
+            $finalAmount = max(0, $originalAmount - $discountAmount);
+
             StudentFee::create([
                 'student_id' => $student->id,
                 'fee_structure_id' => $data['fee_structure_id'],
+                'fee_discount_id' => $discount?->id,
                 'month' => $data['month'],
                 'year' => $data['year'],
-                'original_amount' => $feeStructure->amount,
-                'discount_amount' => 0,
-                'final_amount' => $feeStructure->amount,
+                'original_amount' => $originalAmount,
+                'discount_amount' => $discountAmount,
+                'final_amount' => $finalAmount,
                 'paid_amount' => 0,
-                'due_amount' => $feeStructure->amount,
+                'due_amount' => $finalAmount,
                 'status' => 'pending',
                 'due_date' => $data['due_date'] ?? null,
             ]);
@@ -183,5 +224,14 @@ class AssignFees extends Page implements HasForms
 
         $this->showStudents = false;
         $this->students = collect();
+        $this->studentDiscounts = [];
+    }
+
+    public function getDiscountOptions(): array
+    {
+        return FeeDiscount::where('is_active', true)
+            ->get()
+            ->mapWithKeys(fn($d) => [$d->id => $d->name . ' (' . $d->formatted_discount . ')'])
+            ->toArray();
     }
 }
