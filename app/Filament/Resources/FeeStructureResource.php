@@ -79,6 +79,16 @@ class FeeStructureResource extends BaseResource
                                 Forms\Components\Toggle::make('is_active')
                                     ->label('সক্রিয়')
                                     ->default(true),
+
+                                Forms\Components\Select::make('is_for_boarder')
+                                    ->label('প্রযোজ্য')
+                                    ->options([
+                                        null => 'সবার জন্য',
+                                        1 => 'শুধু আবাসিক',
+                                        0 => 'শুধু অনাবাসিক',
+                                    ])
+                                    ->native(false)
+                                    ->helperText('এই ফি কাদের জন্য প্রযোজ্য'),
                             ]),
 
                         Forms\Components\Grid::make(2)

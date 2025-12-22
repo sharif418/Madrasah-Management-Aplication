@@ -338,19 +338,30 @@ class StudentResource extends BaseResource
                         Forms\Components\Tabs\Tab::make('অন্যান্য')
                             ->icon('heroicon-o-document-text')
                             ->schema([
-                                Forms\Components\Select::make('status')
-                                    ->label('স্ট্যাটাস')
-                                    ->options([
-                                        'active' => 'সক্রিয়',
-                                        'inactive' => 'নিষ্ক্রিয়',
-                                        'transferred' => 'বদলি',
-                                        'dropped_out' => 'ঝরে পড়া',
-                                        'passed_out' => 'পাস করেছে',
-                                        'suspended' => 'সাময়িক বহিষ্কার',
-                                    ])
-                                    ->default('active')
-                                    ->required()
-                                    ->native(false),
+                                Forms\Components\Grid::make(2)
+                                    ->schema([
+                                        Forms\Components\Select::make('status')
+                                            ->label('স্ট্যাটাস')
+                                            ->options([
+                                                'active' => 'সক্রিয়',
+                                                'inactive' => 'নিষ্ক্রিয়',
+                                                'transferred' => 'বদলি',
+                                                'dropped_out' => 'ঝরে পড়া',
+                                                'passed_out' => 'পাস করেছে',
+                                                'suspended' => 'সাময়িক বহিষ্কার',
+                                            ])
+                                            ->default('active')
+                                            ->required()
+                                            ->native(false),
+
+                                        Forms\Components\Select::make('default_discount_id')
+                                            ->label('স্থায়ী ছাড়')
+                                            ->relationship('defaultDiscount', 'name')
+                                            ->preload()
+                                            ->searchable()
+                                            ->native(false)
+                                            ->helperText('এই ছাত্রের জন্য প্রতি মাসে অটো প্রযোজ্য হবে'),
+                                    ]),
 
                                 Forms\Components\Textarea::make('medical_conditions')
                                     ->label('স্বাস্থ্য সংক্রান্ত তথ্য')

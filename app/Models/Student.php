@@ -46,6 +46,7 @@ class Student extends Model implements HasMedia
         'medical_conditions',
         'status',
         'notes',
+        'default_discount_id', // স্থায়ী ছাড়
     ];
 
     protected $casts = [
@@ -86,6 +87,14 @@ class Student extends Model implements HasMedia
     public function guardian(): BelongsTo
     {
         return $this->belongsTo(Guardian::class);
+    }
+
+    /**
+     * ছাত্রের স্থায়ী ছাড় - প্রতি মাসে অটো প্রযোজ্য
+     */
+    public function defaultDiscount(): BelongsTo
+    {
+        return $this->belongsTo(FeeDiscount::class, 'default_discount_id');
     }
 
     public function academicYear(): BelongsTo

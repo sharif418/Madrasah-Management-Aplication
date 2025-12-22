@@ -17,12 +17,14 @@ class FeeStructure extends Model
         'due_day',
         'description',
         'is_active',
+        'is_for_boarder', // null=সবার জন্য, true=আবাসিক, false=অনাবাসিক
     ];
 
     protected $casts = [
         'amount' => 'decimal:2',
         'late_fee' => 'decimal:2',
         'is_active' => 'boolean',
+        'is_for_boarder' => 'boolean',
     ];
 
     public function feeType(): BelongsTo
