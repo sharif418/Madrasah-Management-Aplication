@@ -107,7 +107,12 @@ class FeeCollectionResource extends BaseResource
                 Tables\Columns\TextColumn::make('month')
                     ->label('মাস')
                     ->formatStateUsing(fn($state) => $state ? bengaliMonth($state) : '-')
-                    ->toggleable(),
+                    ->sortable(),
+
+                Tables\Columns\TextColumn::make('year')
+                    ->label('বছর')
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
 
                 Tables\Columns\TextColumn::make('final_amount')
                     ->label('মোট')
@@ -139,16 +144,49 @@ class FeeCollectionResource extends BaseResource
                     ->formatStateUsing(fn(string $state): string => StudentFee::statusOptions()[$state] ?? $state),
             ])
             ->filters([
-                Tables\Filters\SelectFilter::make('status')
-                    ->label('স্ট্যাটাস')
-                    ->options(StudentFee::statusOptions()),
-
+                // শ্রেণি ফিল্টার সবার আগে দেখাবে
                 Tables\Filters\SelectFilter::make('class')
-                    ->label('শ্রেণি')
+                    ->label('শ্রেণি নির্বাচন করুন')
                     ->relationship('student.class', 'name')
                     ->preload()
-                    ->searchable(),
+                    ->searchable()
+                    ->columnSpan(2),
+
+                Tables\Filters\SelectFilter::make('month')
+                    ->label('মাস')
+                    ->options([
+                        1 => 'জানুয়ারি',
+                        2 => 'ফেব্রুয়ারি',
+                        3 => 'মার্চ',
+                        4 => 'এপ্রিল',
+                        5 => 'মে',
+                        6 => 'জুন',
+                        7 => 'জুলাই',
+                        8 => 'আগস্ট',
+                        9 => 'সেপ্টেম্বর',
+                        10 => 'অক্টোবর',
+                        11 => 'নভেম্বর',
+                        12 => 'ডিসেম্বর',
+                    ]),
+
+                Tables\Filters\SelectFilter::make('year')
+                    ->label('বছর')
+                    ->options(function () {
+                        $currentYear = now()->year;
+                        return [
+                            $currentYear - 1 => $currentYear - 1,
+                            $currentYear => $currentYear,
+                            $currentYear + 1 => $currentYear + 1,
+                        ];
+                    })
+                    ->default(now()->year),
+
+                Tables\Filters\SelectFilter::make('status')
+                    ->label('স্ট্যাটাস')
+                    ->options(StudentFee::statusOptions())
+                    ->default('pending'), // ডিফল্টে শুধু বাকি দেখাবে
             ])
+            ->filtersFormColumns(4)
             ->actions([
                 Tables\Actions\Action::make('collect')
                     ->label('আদায়')
